@@ -59,7 +59,7 @@ const recipes = [
     ],
     steps: [
       step('Mix {1} of diced tomato with the basil, half the olive oil and a pinch of salt. Leave it to rest so the juices come out.', 10),
-      step('Toast or grill {0} of bread until golden and a little charred at the edges.', 3),
+      step('Toast or grill {0} slices of bread until golden and a little charred at the edges.', 3),
       step('Rub the hot toast with the cut side of the garlic. The rough surface grates it like a cheese grater.'),
       step('Spoon the tomatoes on top, drizzle with the rest of the oil and serve straight away.')
     ]
@@ -105,7 +105,7 @@ const recipes = [
       step('Simmer {0} of rice in {1} of stock with the saffron until all the liquid is absorbed.', 18),
       step('Stir in {3} of Parmigiano, spread the rice on a tray and let it cool completely.', 30),
       step('With wet hands, shape a ball of rice, press a hollow in it, fill with mozzarella and peas, and close it up.'),
-      step('Roll each ball in {6} of beaten egg, then in {7} of breadcrumbs.'),
+      step('Roll each ball in the beaten eggs ({6} in total), then in {7} of breadcrumbs.'),
       step('Fry in oil at 175°C, a few at a time, until deep golden all over. Drain on kitchen paper.', 5)
     ]
   },
@@ -148,7 +148,7 @@ const recipes = [
     steps: [
       step('Bring a large pot of salted water to the boil.', 10),
       step('Fry {1} of guanciale in a dry pan over a medium heat until the fat runs and it turns crisp.', 6),
-      step('Whisk {2} of egg yolks, {3} of whole egg, {4} of Pecorino and {5} of pepper together.'),
+      step('Whisk {2} egg yolks and {3} whole egg with {4} of Pecorino and {5} of pepper.'),
       step('Cook {0} of spaghetti until al dente. Keep a mug of the cooking water.', 9),
       step('Take the pan off the heat. Toss the pasta in the guanciale fat, add the egg mixture and a splash of water, and stir fast until creamy, not scrambled.')
     ]
@@ -189,7 +189,7 @@ const recipes = [
       ing('Parmigiano Reggiano, grated', 15, 'g', 3, 'tbsp')
     ],
     steps: [
-      step('Soften {2} of onion in half of the butter without letting it brown.', 5),
+      step('Soften {2} small onion, finely chopped, in half of the butter without letting it brown.', 5),
       step('Add {0} of rice and toast it, stirring, until the grains look glassy.', 2),
       step('Pour in {4} of wine and let it bubble away.', 1),
       step('Add {1} of hot stock a ladle at a time, stirring, and waiting until each ladle is absorbed. Add the saffron halfway.', 18),
@@ -212,7 +212,7 @@ const recipes = [
       ing('Extra-virgin olive oil', 30, 'ml', 2, 'tbsp')
     ],
     steps: [
-      step('Pound {3} of garlic and {2} of pine nuts to a paste in a mortar.'),
+      step('Pound {3} garlic clove and {2} of pine nuts to a paste in a mortar.'),
       step('Add {1} of basil a little at a time with a pinch of coarse salt, grinding with a circular motion.'),
       step('Stir in {4} of Parmigiano and {5} of Pecorino, then {6} of olive oil.'),
       step('Cook {0} of trofie in salted water until al dente.', 10),
@@ -340,7 +340,7 @@ const recipes = [
       step('Lift out the meat. Soften {3} of diced vegetables in the same pan.', 8),
       step('Return the meat, pour in {4} of wine and let it reduce.', 3),
       step('Add {5} of stock, cover and braise on the lowest heat, turning once.', 120),
-      step('Mix the zest of {6} of lemon with {7} of parsley and {8} of garlic to make gremolata. Scatter it over just before serving.')
+      step('Mix the zest of {6} lemon with {7} of parsley and {8} garlic clove to make gremolata. Scatter it over just before serving.')
     ]
   },
   {
@@ -358,8 +358,8 @@ const recipes = [
       ing('Dry white wine', 30, 'ml', 2, 'tbsp')
     ],
     steps: [
-      step('Flatten {0} of veal escalopes between sheets of baking paper until thin.'),
-      step('Lay {1} of prosciutto and {2} of sage on each one and pin with a cocktail stick.'),
+      step('Flatten {0} veal escalopes between sheets of baking paper until thin.'),
+      step('Lay a slice of prosciutto and a sage leaf on each escalope and pin them with a cocktail stick.'),
       step('Dust the underside with {3} of flour and fry in {4} of butter, prosciutto side up first.', 4),
       step('Pour in {5} of wine, let it bubble for a minute and spoon the sauce over the meat.', 1)
     ]
@@ -406,7 +406,7 @@ const recipes = [
     ],
     steps: [
       step('Fry {0} of aubergine in {8} of oil until golden. Set aside.', 10),
-      step('Soften {1} of celery and {2} of onion in the same pan.', 8),
+      step('Soften {1} of celery and {2} sliced onion in the same pan.', 8),
       step('Add {3} of passata, {4} of olives and {5} of capers and simmer.', 10),
       step('Stir in {6} of vinegar and {7} of sugar and let the sharpness cook off.', 2),
       step('Return the aubergine, then leave it to cool. Caponata tastes best at room temperature.', 30)
@@ -427,10 +427,10 @@ const recipes = [
       ing('Cocoa powder', 1, 'tsp', 1, 'tsp')
     ],
     steps: [
-      step('Whisk the yolks of {1} of eggs with {2} of sugar until pale and thick.', 4),
+      step('Whisk the yolks of {1} eggs with {2} of sugar until pale and thick.', 4),
       step('Beat in {0} of mascarpone until smooth.'),
       step('Whisk the whites to stiff peaks and fold them gently into the cream.'),
-      step('Dip {3} of savoiardi in {4} of espresso for one second each and lay them in a dish.'),
+      step('Dip {3} savoiardi in {4} of espresso for one second each and lay them in a dish.'),
       step('Layer biscuits and cream twice, then chill.', 360),
       step('Dust with {5} of cocoa just before serving.')
     ]
@@ -450,7 +450,7 @@ const recipes = [
       ing('Fresh berries, to serve', 40, 'g', 0.25, 'cup')
     ],
     steps: [
-      step('Soak {3} of gelatine leaves in cold water until soft.', 5),
+      step('Soak {3} gelatine leaves in cold water until soft.', 5),
       step('Warm {0} of cream, {1} of milk, {2} of sugar and the vanilla seeds until just below a simmer.', 5),
       step('Squeeze out the gelatine and stir it into the warm cream until dissolved.'),
       step('Pour into small moulds and chill until set.', 240),

@@ -41,6 +41,7 @@ function formatAmount(qty, unit) {
     case 'oz':  return `${trimNumber(qty, 1)} oz`;
     case 'cup': return `${toQuarters(qty)} ${qty > 1 ? 'cups' : 'cup'}`;
     case '':    return toQuarters(qty);               // a count, e.g. 2 eggs
+    case 'pinch': return `${toQuarters(qty)} ${qty > 1 ? 'pinches' : 'pinch'}`;
     default:    return `${toQuarters(qty)} ${unit}`;  // tbsp, tsp
   }
 }

@@ -10,7 +10,8 @@
  *   $heroTheme    string  piscine (default) | sable | melon | cream | marine
  *   $heroArt      string  file name in includes/art/, e.g. "recipes"
  *   $heroActions  string  optional HTML for buttons (our own fixed markup)
- *   $heroCrumbs   array   optional breadcrumb: ['Label' => 'url', 'Current page' => null]
+ *   $heroCrumbs   array   optional breadcrumb: ['Label' => 'url', 'Section' => null, 'Current page' => null]
+ *                         (a null url is plain text; the LAST item is the current page)
  */
 $heroTheme   = $heroTheme   ?? 'piscine';
 $heroActions = $heroActions ?? '';
@@ -23,8 +24,17 @@ $artFile     = __DIR__ . '/art/' . basename($heroArt ?? '') . '.php';   // basen
       <?php if ($heroCrumbs): ?>
         <nav aria-label="Breadcrumb">
           <ol class="crumbs">
+            <?php $lastLabel = array_key_last($heroCrumbs); ?>
             <?php foreach ($heroCrumbs as $label => $url): ?>
-              <li><?php if ($url): ?><a href="<?= htmlspecialchars($url) ?>"><?= htmlspecialchars($label) ?></a><?php else: ?><span aria-current="page"><?= htmlspecialchars($label) ?></span><?php endif; ?></li>
+              <li>
+                <?php if ($label === $lastLabel): ?>
+                  <span aria-current="page"><?= htmlspecialchars($label) ?></span>
+                <?php elseif ($url): ?>
+                  <a href="<?= htmlspecialchars($url) ?>"><?= htmlspecialchars($label) ?></a>
+                <?php else: ?>
+                  <span><?= htmlspecialchars($label) ?></span>
+                <?php endif; ?>
+              </li>
             <?php endforeach; ?>
           </ol>
         </nav>
