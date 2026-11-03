@@ -1,5 +1,6 @@
 <!--
-  "Join us" / "Sign up now" pop-up (Bootstrap modal).
+  "Sign up now" pop-up (Bootstrap modal). Opened by every "Join us" /
+  "Sign up now" button, and once by itself on the homepage after 20 seconds.
   The input names match the future `users` table columns.
   Phase 2: register.php will validate again on the server, hash the
   password with password_hash() and insert the row with PDO.
@@ -13,9 +14,9 @@
       </button>
 
       <div class="modal-body">
-        <h2 class="join-modal__title" id="joinTitle">Pull up a chair.</h2>
+        <h2 class="join-modal__title" id="joinTitle">Sign up now.</h2>
         <p class="ff-italian">Benvenuto a tavola.</p>
-        <p>Create a free account to save recipes and share your own in the Community Cookbook.</p>
+        <p>Pull up a chair: create a free account to save recipes, enter the monthly challenge and share your own dishes in the Community Cookbook.</p>
 
         <form id="joinForm" action="register.php" method="post" novalidate>
           <div class="row g-3">
@@ -34,7 +35,7 @@
             <div class="col-12 ff-field">
               <label for="joinPassword">Password</label>
               <input id="joinPassword" name="password" type="password" autocomplete="new-password"
-                     required minlength="8" aria-describedby="joinPasswordHint">
+                     required minlength="8" data-rule="new-password" aria-describedby="joinPasswordHint">
               <p class="ff-hint" id="joinPasswordHint">At least 8 characters, including a number.</p>
             </div>
             <div class="col-12 ff-check">

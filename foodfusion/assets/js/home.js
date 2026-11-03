@@ -1,24 +1,13 @@
 /* =====================================================================
    home.js: homepage only. Fills each section with data from data.js.
-   1. Region map          4. Monthly challenge (likes + Leading badge)
-   2. Cook along          5. Events poster wall
-   3. Postcard stories    6. News feed
+   1. Region map          4. Events carousel (Bootstrap)
+   2. Cook along          5. News feed: featured recipes and trends
+   3. Postcard stories
+   (The monthly challenge is filled by community.js, which the
+   Community Cookbook page uses too.)
    ===================================================================== */
 
 'use strict';
-
-/* Small region icons, used on the postcard stamps (decorative) */
-const REGION_ICONS = {
-  north:   '<path d="M3 19 L9 9 L13 15 L16 11 L21 19 Z"/>',
-  centre:  '<path d="M12 3 C9 8 9 14 10 19 H14 C15 14 15 8 12 3 Z"/><path d="M12 19 V22"/>',
-  south:   '<circle cx="12" cy="12" r="4"/><path d="M12 2 V4.5 M12 19.5 V22 M2 12 H4.5 M19.5 12 H22 M4.9 4.9 L6.7 6.7 M17.3 17.3 L19.1 19.1 M4.9 19.1 L6.7 17.3 M17.3 6.7 L19.1 4.9"/>',
-  islands: '<path d="M3 10 C6 7 9 13 12 10 C15 7 18 13 21 10"/><path d="M3 16 C6 13 9 19 12 16 C15 13 18 19 21 16"/>'
-};
-
-function regionIcon(slug, size) {
-  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${REGION_ICONS[slug] || ''}</svg>`;
-}
 
 
 /* ---------- 1. Region map -------------------------------------------- */
@@ -26,19 +15,20 @@ function regionIcon(slug, size) {
 async function setupRegionMap() {
   const [allRegions, allRecipes] = await Promise.all([getRegions(), getRecipes()]);
   const panel = document.getElementById('regionPanel');
-  const map = document.getElementById('italyMap');
-  const buttons = document.querySelectorAll('.region-btn');
+  const mapImage = document.getElementById('italyMap');
+  // The region chips AND the pins on the map: both choose a region
+  const buttons = document.querySelectorAll('.region-btn, .map-pin');
 
   function showRegion(slug) {
     const region = allRegions.find(r => r.slug === slug);
     const dishes = region.featured_recipe_ids.map(id => allRecipes.find(r => r.id === id)).filter(Boolean);
 
-    // Button state (CSS styles the pressed one)
+    // Pressed state on chips and pins (CSS styles the pressed ones, so the
+    // look and what a screen reader announces always match)
     buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.region === slug)));
 
-    // Map highlight and its text alternative
-    map.querySelectorAll('.map-area').forEach(area => area.classList.toggle('is-active', area.dataset.region === slug));
-    map.setAttribute('aria-label', `Map of Italy with ${region.name} highlighted`);
+    // Keep the map's text alternative up to date
+    mapImage.alt = `Illustrated map of Italy's 20 regions. ${region.name} is selected.`;
 
     panel.innerHTML = `
       <h3 class="region-panel__title">${escapeHtml(region.name)}</h3>
@@ -83,151 +73,69 @@ async function setupHomeCookAlong() {
 async function renderStories() {
   const stories = await getPosts('story');
   const tilts = ['-2deg', '1.5deg', '-1deg'];
-
-  document.getElementById('storyList').innerHTML = stories.map((post, index) => `
-    <article class="postcard" style="--tilt: ${tilts[index % tilts.length]}">
-      <div class="d-flex justify-content-between align-items-start gap-3">
-        <p class="postcard__from">Saluti da ${escapeHtml(post.place)}</p>
-        <span class="postcard__stamp" aria-hidden="true">${regionIcon(post.region, 26)}</span>
-      </div>
-      <div class="photo-placeholder">Photo: ${escapeHtml(post.image_alt)}</div>
-      <blockquote class="postcard__quote m-0">&ldquo;${escapeHtml(post.story)}&rdquo;</blockquote>
-      <p class="postcard__by">
-        <strong>${escapeHtml(post.user_name)}</strong>, ${escapeHtml(post.area)}.
-        <a class="fw-bold" href="community.php#post-${post.id}">${escapeHtml(post.title)}</a>
-      </p>
-    </article>`).join('');
+  document.getElementById('storyList').innerHTML = stories
+    .slice(0, 3)
+    .map((post, index) => postcardHtml(post, tilts[index % tilts.length])) // postcardHtml is in main.js
+    .join('');
 }
 
 
-/* ---------- 4. Monthly challenge ------------------------------------- */
+/* ---------- 4. Events carousel (Bootstrap) --------------------------- */
 
-async function setupChallenge() {
-  const challenge = await getChallenge();
-  const entries = await getChallengeEntries(challenge.id);
-  const closes = parseDate(challenge.closes_on);
+const EVENT_THEMES = ['red', 'sable', 'navy', 'melon', 'cream'];
 
-  document.getElementById('challenge').innerHTML = `
-    <div class="ticket">
-      <div class="ticket__main">
-        <p class="ticket__label"><i class="bi bi-trophy" aria-hidden="true"></i> La sfida del mese</p>
-        <h2 class="ff-heading mt-2" id="challengeTitle">${escapeHtml(challenge.title)}</h2>
-        <p class="fs-5 mt-3 mb-0">${escapeHtml(challenge.description)}</p>
-        <ol>${challenge.rules.map(rule => `<li>${escapeHtml(rule)}</li>`).join('')}</ol>
+function eventPosterHtml(event, index) {
+  const date = parseDate(event.event_date);
+  const dateText = date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+  return `
+    <li class="event-poster event-poster--${EVENT_THEMES[index % EVENT_THEMES.length]}">
+      <p class="event-poster__weekday">${date.toLocaleDateString('en-GB', { weekday: 'long' })}</p>
+      <p class="event-poster__day">${String(date.getDate()).padStart(2, '0')}</p>
+      <p class="event-poster__month">${date.toLocaleDateString('en-GB', { month: 'long' })}</p>
+      <p class="event-poster__it">${escapeHtml(event.title_it)}</p>
+      <h3 class="event-poster__title">${escapeHtml(event.title)}</h3>
+      <p><time datetime="${event.event_date}T${event.start_time}">${escapeHtml(event.location)}, ${event.start_time}</time></p>
+      <div class="event-poster__actions">
+        <button type="button" class="link-button event-poster__cta" data-bs-toggle="modal" data-bs-target="#joinModal">Save my seat</button>
+        ${shareMenuHtml({ title: event.title, text: `${dateText}, ${event.location}`, path: 'index.php#eventsTitle' }, 'share-btn share-btn--poster')}
       </div>
-      <div class="ticket__stub">
-        <p class="fw-bold m-0">Entries close</p>
-        <p class="ticket__day">${closes.getDate()}</p>
-        <p class="ticket__month">${closes.toLocaleDateString('en-GB', { month: 'long' })}</p>
-        <a class="ff-btn ff-btn--navy align-self-start mt-2" href="community.php#challenge">Enter the challenge</a>
-      </div>
-    </div>`;
-
-  // likedIds remembers which entries this visitor liked (phase 2: api/like.php)
-  const likedIds = new Set();
-  const list = document.getElementById('entryList');
-
-  function render() {
-    const counts = entries.map(entry => entry.likes + (likedIds.has(entry.id) ? 1 : 0));
-    const top = Math.max(...counts);
-
-    list.innerHTML = entries.map((entry, index) => {
-      const liked = likedIds.has(entry.id);
-      const count = counts[index];
-      return `
-        <li class="entry">
-          <div class="photo-placeholder">
-            Photo: ${escapeHtml(entry.image_alt)}
-            ${count === top ? '<span class="badge-leading"><i class="bi bi-star-fill" aria-hidden="true"></i> Leading</span>' : ''}
-          </div>
-          <div class="entry__body">
-            <h4 class="entry__title"><a href="community.php#entry-${entry.id}">${escapeHtml(entry.title)}</a></h4>
-            <p class="m-0">${escapeHtml(entry.user_name)}, ${escapeHtml(entry.user_location)}</p>
-            <div class="mt-auto pt-2">
-              <button type="button" class="like-btn" data-entry-id="${entry.id}" aria-pressed="${liked}"
-                      aria-label="${liked ? 'Unlike' : 'Like'} ${escapeHtml(entry.title)}, ${count} likes">
-                <i class="bi ${liked ? 'bi-heart-fill' : 'bi-heart'}" aria-hidden="true"></i> ${count}
-              </button>
-            </div>
-          </div>
-        </li>`;
-    }).join('');
-  }
-
-  // One listener on the list handles every like button ("event delegation"),
-  // so it keeps working after the list is redrawn.
-  list.addEventListener('click', event => {
-    const button = event.target.closest('.like-btn');
-    if (!button) return;
-    const id = Number(button.dataset.entryId);
-    likedIds.has(id) ? likedIds.delete(id) : likedIds.add(id);
-    render();
-    list.querySelector(`[data-entry-id="${id}"]`).focus(); // keep keyboard focus on the same button
-  });
-
-  render();
+    </li>`;
 }
-
-
-/* ---------- 5. Events poster wall ------------------------------------ */
 
 async function setupEvents() {
   const allEvents = await getEvents();
-  const themes = ['red', 'sable', 'navy', 'melon', 'cream'];
-  const VISIBLE = 3;
-  let start = 0;
-
-  const list = document.getElementById('eventList');
-  const range = document.getElementById('eventsRange');
-
-  function render() {
-    // Show 3 events, wrapping round to the start after the last one
-    const visible = [];
-    for (let k = 0; k < Math.min(VISIBLE, allEvents.length); k++) {
-      visible.push((start + k) % allEvents.length);
-    }
-
-    list.innerHTML = visible.map(index => {
-      const event = allEvents[index];
-      const date = parseDate(event.event_date);
-      return `
-        <li class="event-poster event-poster--${themes[index % themes.length]}">
-          <p class="event-poster__weekday">${date.toLocaleDateString('en-GB', { weekday: 'long' })}</p>
-          <p class="event-poster__day">${String(date.getDate()).padStart(2, '0')}</p>
-          <p class="event-poster__month">${date.toLocaleDateString('en-GB', { month: 'long' })}</p>
-          <p class="event-poster__it">${escapeHtml(event.title_it)}</p>
-          <h3 class="event-poster__title">${escapeHtml(event.title)}</h3>
-          <p><time datetime="${event.event_date}T${event.start_time}">${escapeHtml(event.location)}, ${event.start_time}</time></p>
-          <button type="button" class="link-button event-poster__cta" data-bs-toggle="modal" data-bs-target="#joinModal">Save my seat</button>
-        </li>`;
-    }).join('');
-
-    const first = parseDate(allEvents[start].event_date);
-    range.textContent = `From ${first.getDate()} ${first.toLocaleDateString('en-GB', { month: 'long' })}`;
-  }
-
-  document.getElementById('eventsPrev').addEventListener('click', () => {
-    start = (start - 1 + allEvents.length) % allEvents.length;
-    render();
+  setupGroupedCarousel({                             // from main.js
+    root: document.getElementById('eventsCarousel'),
+    items: allEvents,
+    renderItem: eventPosterHtml,
+    itemName: 'events',
+    statusEl: document.getElementById('eventsStatus')
   });
-  document.getElementById('eventsNext').addEventListener('click', () => {
-    start = (start + 1) % allEvents.length;
-    render();
-  });
-
-  render();
 }
 
 
-/* ---------- 6. News feed --------------------------------------------- */
+/* ---------- 5. News feed --------------------------------------------- */
 
-async function renderNews() {
-  const items = await getNews();
+async function renderNewsFeed() {
+  const [featured, items] = await Promise.all([getFeaturedRecipes(), getNews()]);
+
+  document.getElementById('featuredRecipes').innerHTML = featured.map(recipe => `
+    <li>
+      <a class="feature-item" href="recipe.php?id=${recipe.id}">
+        <span class="photo-placeholder feature-item__photo" aria-hidden="true"></span>
+        <span>
+          <span class="feature-item__title">${escapeHtml(recipe.title)}</span>
+          <span class="feature-item__en">${escapeHtml(recipe.title_en)}</span>
+          <span class="feature-item__meta">${REGION_LABELS[recipe.region]} &middot; ${escapeHtml(recipeTimeLabel(recipe))}</span>
+        </span>
+      </a>
+    </li>`).join('');
+
   document.getElementById('newsList').innerHTML = items.map(item => `
     <article class="news-card">
       <div class="photo-placeholder">Photo: ${escapeHtml(item.image_alt)}</div>
       <p class="news-card__date"><time datetime="${item.published_on}">${formatDate(item.published_on)}</time></p>
-      <h3 class="news-card__title"><a href="community.php#news-${item.id}">${escapeHtml(item.title)}</a></h3>
+      <h4 class="news-card__title"><a href="community.php">${escapeHtml(item.title)}</a></h4>
       <p class="news-card__text">${escapeHtml(item.summary)}</p>
     </article>`).join('');
 }
@@ -238,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupRegionMap();
   setupHomeCookAlong();
   renderStories();
-  setupChallenge();
   setupEvents();
-  renderNews();
+  renderNewsFeed();
 });

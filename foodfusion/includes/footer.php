@@ -47,7 +47,7 @@ $pageScripts = $pageScripts ?? [];
         <ul class="site-footer__links">
           <li><a href="privacy.php">Privacy policy</a></li>
           <li><a href="cookies.php">Cookie policy</a></li>
-          <li><button type="button" class="link-button" id="cookieSettings">Cookie settings</button></li>
+          <li><button type="button" class="link-button" data-open-cookie-settings>Cookie settings</button></li>
         </ul>
       </nav>
     </div>
@@ -66,6 +66,7 @@ $pageScripts = $pageScripts ?? [];
 <script src="assets/js/data.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/forms.js"></script>
+<script src="assets/js/share.js"></script>
 
 <!-- Page-specific scripts -->
 <?php foreach ($pageScripts as $script): ?>

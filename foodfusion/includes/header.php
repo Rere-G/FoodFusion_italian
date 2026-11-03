@@ -5,19 +5,24 @@
  * Set these variables BEFORE including this file:
  *   $pageTitle   string  e.g. "Recipe collection"
  *   $currentPage string  matches a key in $navLinks below, e.g. "recipes"
+ *                        (or a dropdown child key, e.g. "culinary")
  */
 
 $pageTitle   = $pageTitle   ?? 'FoodFusion';
 $currentPage = $currentPage ?? '';
 
 // One list of links, so the menu is the same on every page.
+// "children" makes a dropdown (Resources has two pages).
 $navLinks = [
-    'home'      => ['href' => 'index.php',                'label' => 'Home'],
-    'recipes'   => ['href' => 'recipes.php',              'label' => 'Recipes'],
-    'community' => ['href' => 'community.php',            'label' => 'Community cookbook'],
-    'resources' => ['href' => 'culinary-resources.php',   'label' => 'Resources'],
-    'about'     => ['href' => 'about.php',                'label' => 'About us'],
-    'contact'   => ['href' => 'contact.php',              'label' => 'Contact'],
+    'home'      => ['href' => 'index.php',     'label' => 'Home'],
+    'recipes'   => ['href' => 'recipes.php',   'label' => 'Recipes'],
+    'community' => ['href' => 'community.php', 'label' => 'Community cookbook'],
+    'resources' => ['label' => 'Resources', 'children' => [
+        'culinary'    => ['href' => 'culinary-resources.php',    'label' => 'Culinary resources'],
+        'educational' => ['href' => 'educational-resources.php', 'label' => 'Educational resources'],
+    ]],
+    'about'     => ['href' => 'about.php',     'label' => 'About us'],
+    'contact'   => ['href' => 'contact.php',   'label' => 'Contact'],
 ];
 ?>
 <!doctype html>
@@ -67,10 +72,24 @@ $navLinks = [
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav me-auto ms-lg-4">
           <?php foreach ($navLinks as $key => $link): ?>
-            <li class="nav-item">
-              <a class="nav-link" href="<?= $link['href'] ?>"
-                 <?= $key === $currentPage ? 'aria-current="page"' : '' ?>><?= $link['label'] ?></a>
-            </li>
+            <?php if (isset($link['children'])): ?>
+              <?php $isCurrentSection = array_key_exists($currentPage, $link['children']); ?>
+              <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle<?= $isCurrentSection ? ' is-current' : '' ?>" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><?= $link['label'] ?></button>
+                <ul class="dropdown-menu">
+                  <?php foreach ($link['children'] as $childKey => $child): ?>
+                    <li><a class="dropdown-item" href="<?= $child['href'] ?>"
+                           <?= $childKey === $currentPage ? 'aria-current="page"' : '' ?>><?= $child['label'] ?></a></li>
+                  <?php endforeach; ?>
+                </ul>
+              </li>
+            <?php else: ?>
+              <li class="nav-item">
+                <a class="nav-link" href="<?= $link['href'] ?>"
+                   <?= $key === $currentPage ? 'aria-current="page"' : '' ?>><?= $link['label'] ?></a>
+              </li>
+            <?php endif; ?>
           <?php endforeach; ?>
         </ul>
         <div class="header-actions">

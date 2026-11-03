@@ -25,3 +25,32 @@ Fill in "Actual result" and "Pass/Fail" yourself when you run each test in XAMPP
 | T19 | Events | Carousel | Click next arrow | Posters move on by one event; "From …" date updates | | | |
 | T20 | Accessibility | Keyboard only | Tab through whole homepage | Every control reachable, visible focus outline, skip link works | | | |
 | T21 | Responsive | No sideways scroll | View at 320px wide | No horizontal scrollbar | | | |
+| T22 | Hero | Scene animates | Open index.php and watch the hero for 10 seconds | Waves drift, boats bob, glints sparkle, wind lines blow across; branch and lemons swing more when a wind line reaches them | | | |
+| T23 | Hero | Mouse breeze | Move the mouse quickly left and right over the hero | Lemons swing harder, then settle down | | | |
+| T24 | Hero | Reduced motion | Windows: Settings > Accessibility > Visual effects > Animation effects OFF, reload | Hero scene is completely still | | | |
+| T25 | Hero | Pauses off screen | Scroll down to the footer, check CPU in Task Manager | Animation stops while the hero is not visible | | | |
+| T26 | Map | Pins choose a region | Click the pin on Sicily | Pin grows and turns red, "Islands" chip is pressed, island dishes shown | | | |
+| T27 | Join us | Close button | Open Join us, click the ✕ | Pop-up closes | Pop-up stayed open | Fail → Pass | .modal-body covered the button; added z-index: 2 to .join-modal__close |
+| T28 | Events carousel | Bootstrap carousel | On the homepage, click the next arrow and a dot | Moves to the next slide of events; "Showing events 4 to 6 of 6" is announced | | | |
+| T29 | Share | Share menu | Click "Share" on an event poster | Menu with Facebook, X, Pinterest, WhatsApp, Email and Copy link opens; Escape closes it | | | |
+| T30 | Cookies | Preference cookie only with consent | Choose "Accept all", switch a recipe to US cups, reload | US cups stays selected; cookie ff_pref_units=us exists | | | |
+| T31 | Cookies | Essential only | On cookies.php choose "Essential cookies only", reload a recipe | Recipe shows Metric; ff_pref_units is deleted | | | |
+| T32 | Recipes | URL filters | Open recipes.php?region=north&diet=gluten_free | 4 recipes; the filters are pre-selected | | | |
+| T33 | Recipes | Combined filters | Tick "Hard" as well | 1 recipe (Osso buco); the address bar includes difficulty=hard | | | |
+| T34 | Recipes | Empty state | Search "zzzz" | "No recipes match" message with a Clear filters button | | | |
+| T35 | Recipes | Quick filter | Choose "30 minutes or less" | Only quick recipes; Pizza (24 hr dough) is not shown | | | |
+| T36 | Recipe page | Unknown recipe | Open recipe.php?id=999 | "We could not find that recipe" with a link back | | | |
+| T37 | Community | Filter feed | Click "Tips" | Only the 3 tip posts are shown | | | |
+| T38 | Community | Like a post | Click the heart on Marco's post | Count goes up by 1; the button is pressed | | | |
+| T39 | Community | Comment | Open comments, enter a name and comment, post | Comment appears in the list | | | |
+| T40 | Community | Submit validation | Click "Share with the community" with an empty form | A message under each required field | | | |
+| T41 | Community | Submit a tip | Choose "A tip", fill the form, submit | Confirmation; the tip appears at the top of the feed | | | |
+| T42 | Community | Featured carousel | Use the arrows on "Featured this month" | Moves between slides of featured posts | | | |
+| T43 | Contact | Reason from link | Open contact.php?reason=recipe_request | "Recipe request" is selected and the dish field shows | | | |
+| T44 | Contact | Validation and send | Submit empty, then fill correctly | Errors first; then "Grazie, …" confirmation and the form clears | | | |
+| T45 | Contact | Feedback rating | Choose "Feedback" | 1 to 5 star rating appears | | | |
+| T46 | About | Team carousel | Use the arrows on "The team" | Shows the next team members | | | |
+| T47 | Resources | Downloads | Click Download on each card | Each PDF downloads and opens | | | |
+| T48 | Login (demo) | Lockout | Enter a wrong password 3 times | Log in is paused with a 3:00 countdown; still locked after reload | | | |
+| T49 | Login (demo) | Password reset | Click "Forgot your password?", enter email, send | Same message whether or not the account exists | | | |
+| T50 | Navigation | Resources dropdown | Open "Resources" in the menu with keyboard (Tab, Enter, arrows) | Culinary and Educational resources are listed and reachable | | | |
