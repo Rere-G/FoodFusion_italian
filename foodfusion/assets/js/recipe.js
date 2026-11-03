@@ -52,8 +52,9 @@ function formatAmount(qty, unit) {
  */
 function ingredientAmount(ingredient, servings, units) {
   const source = units === 'us' ? ingredient.us : ingredient.metric;
-  const qty = source.qty === null ? null : source.qty * servings;
-  return formatAmount(qty, source.unit);
+  // No amount (e.g. "salt, to taste" or "oil, for frying"): show the note instead
+  if (source.qty === null) return ingredient.note || 'To taste';
+  return formatAmount(source.qty * servings, source.unit);
 }
 
 /* Replace {0}, {1} ... in a step with the matching ingredient amounts */
@@ -109,7 +110,8 @@ function createWakeLockControl(onChange) {
 function setupCookAlong(container, recipe) {
   const state = {
     servings: recipe.base_servings,
-    units: 'metric',
+    // Remembered from last time, but only if the visitor accepted preference cookies (main.js)
+    units: getPreference('units') === 'us' ? 'us' : 'metric',
     step: 0
   };
 
@@ -189,6 +191,7 @@ function setupCookAlong(container, recipe) {
   unitButtons.forEach(button => {
     button.addEventListener('click', () => {
       state.units = button.dataset.units;
+      savePreference('units', state.units); // does nothing after "Essential only"
       render();
     });
   });

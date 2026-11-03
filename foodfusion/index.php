@@ -1,7 +1,7 @@
 <?php
 $pageTitle   = 'Italian home cooking';
 $currentPage = 'home';
-$pageScripts = ['assets/js/hero-motion.js', 'assets/js/recipe.js', 'assets/js/home.js'];
+$pageScripts = ['assets/js/hero-motion.js', 'assets/js/recipe.js', 'assets/js/community.js', 'assets/js/home.js'];
 include 'includes/header.php';
 ?>
 
@@ -267,56 +267,7 @@ include 'includes/header.php';
         <p class="section-head__intro">Change the servings and every amount updates, in the ingredient list and in the steps. Cook mode keeps your screen awake while your hands are busy.</p>
       </div>
 
-      <!-- recipe.js fills this using the recipe id in data-recipe-id -->
-      <div class="row g-4 mt-2" id="cookAlong" data-recipe-id="6">
-
-        <div class="col-lg-5">
-          <div class="ingredients-card">
-            <h3 class="h4 fw-bold">Ingredients</h3>
-
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mt-3">
-              <div class="servings" role="group" aria-label="Servings">
-                <button type="button" class="icon-btn" data-action="fewer" aria-label="Fewer servings"><i class="bi bi-dash-lg" aria-hidden="true"></i></button>
-                <p class="servings__label" data-output="servings" aria-live="polite">2 servings</p>
-                <button type="button" class="icon-btn" data-action="more" aria-label="More servings"><i class="bi bi-plus-lg" aria-hidden="true"></i></button>
-              </div>
-              <div class="unit-toggle" role="group" aria-label="Units">
-                <button type="button" data-units="metric" aria-pressed="true">Metric</button>
-                <button type="button" data-units="us" aria-pressed="false">US cups</button>
-              </div>
-            </div>
-
-            <p class="small-note mt-2">
-              <span data-output="original">Original recipe serves 2.</span>
-              <button type="button" class="link-button" data-action="reset" hidden>Reset</button>
-            </p>
-            <ul class="ingredient-list" data-output="ingredients"></ul>
-            <p class="small-note">Cooking times stay the same when you change servings.</p>
-          </div>
-        </div>
-
-        <div class="col-lg-7">
-          <div class="steps-card">
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-              <p class="steps-card__counter" data-output="counter" aria-live="polite">Step 1 of 1</p>
-              <!-- Hidden by recipe.js if the browser has no Wake Lock API -->
-              <button type="button" class="switch" role="switch" aria-checked="false" data-action="awake">
-                <span class="switch__track" aria-hidden="true"><span class="switch__knob"></span></span>
-                Keep screen awake
-              </button>
-            </div>
-            <div class="progress-steps" data-output="progress" aria-hidden="true"></div>
-            <p class="steps-card__text" data-output="step"></p>
-            <p class="time-chip" data-output="time" hidden></p>
-            <p class="steps-card__note" data-output="awakeNote">Your screen may dim while you cook. Turn on Keep screen awake to stop it.</p>
-            <div class="d-flex flex-wrap justify-content-between gap-3 mt-auto pt-3">
-              <button type="button" class="ff-btn ff-btn--outline-light" data-action="prev"><i class="bi bi-chevron-left" aria-hidden="true"></i> Previous step</button>
-              <button type="button" class="ff-btn ff-btn--sable" data-action="next"><span data-output="nextLabel">Next step</span> <i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      <?php $cookRecipeId = 6; include 'includes/cook-along.php'; ?>
     </div>
   </section>
 
@@ -339,7 +290,7 @@ include 'includes/header.php';
   <!-- 5. MONTHLY CHALLENGE ================================================ -->
   <section class="ff-section ff-section--cream" aria-labelledby="challengeTitle">
     <div class="container-xl">
-      <!-- home.js fills the ticket and the entries -->
+      <!-- community.js fills the ticket and the entries (the same code runs on community.php) -->
       <div id="challenge"></div>
       <h3 class="h4 fw-bold mt-5">Entries so far</h3>
       <ul class="entry-grid" id="entryList"></ul>
@@ -347,7 +298,7 @@ include 'includes/header.php';
   </section>
 
 
-  <!-- 6. EVENTS POSTER WALL (the brief's events carousel) ================= -->
+  <!-- 6. UPCOMING EVENTS: Bootstrap carousel ============================== -->
   <section class="ff-section ff-section--piscine" aria-labelledby="eventsTitle">
     <div class="container-xl">
       <div class="section-head section-head--split">
@@ -355,23 +306,39 @@ include 'includes/header.php';
           <h2 class="ff-heading" id="eventsTitle">Cook with us</h2>
           <p class="ff-italian ff-italian--lg ff-italian--navy">Prossimi eventi</p>
         </div>
-        <div class="d-flex align-items-center gap-3">
-          <p class="m-0 fw-semibold" id="eventsRange" aria-live="polite"></p>
-          <button type="button" class="icon-btn icon-btn--lg" id="eventsPrev" aria-label="Earlier events"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
-          <button type="button" class="icon-btn icon-btn--lg" id="eventsNext" aria-label="Later events"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+        <!-- Arrows control the carousel below through data-bs-target -->
+        <div class="carousel-nav">
+          <p class="carousel-nav__status" id="eventsStatus" aria-live="polite"></p>
+          <button type="button" class="icon-btn icon-btn--lg" data-bs-target="#eventsCarousel" data-bs-slide="prev" aria-label="Previous events"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+          <button type="button" class="icon-btn icon-btn--lg" data-bs-target="#eventsCarousel" data-bs-slide="next" aria-label="Next events"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
         </div>
       </div>
-      <ul class="poster-grid" id="eventList"></ul>
+
+      <!-- No data-bs-ride: the carousel only moves when the visitor asks it to -->
+      <div id="eventsCarousel" class="carousel slide ff-carousel mt-4" aria-roledescription="carousel" aria-labelledby="eventsTitle">
+        <div class="carousel-inner"><p class="loading-note">Loading events&hellip;</p></div>
+        <div class="carousel-indicators ff-carousel__dots"></div>
+      </div>
     </div>
   </section>
 
 
-  <!-- 7. NEWS FEED: culinary trends ======================================= -->
+  <!-- 7. NEWS FEED: featured recipes and culinary trends ================== -->
   <section class="ff-section ff-section--cream" aria-labelledby="newsTitle">
     <div class="container-xl">
-      <h2 class="ff-heading ff-heading--sm" id="newsTitle">Kitchen notes</h2>
-      <p class="ff-italian ff-italian--lg">Tendenze in cucina</p>
-      <div class="news-grid" id="newsList"></div>
+      <h2 class="ff-heading ff-heading--sm" id="newsTitle">From the kitchen</h2>
+      <p class="ff-italian ff-italian--lg">Notizie dalla cucina</p>
+      <div class="row g-4 g-lg-5 mt-1">
+        <div class="col-lg-4">
+          <h3 class="h4 fw-bold">Featured recipes</h3>
+          <ul class="feature-list" id="featuredRecipes"></ul>
+          <a class="ff-btn ff-btn--outline mt-3" href="recipes.php">Browse all recipes</a>
+        </div>
+        <div class="col-lg-8">
+          <h3 class="h4 fw-bold">Trends in the kitchen</h3>
+          <div class="news-grid news-grid--two" id="newsList"></div>
+        </div>
+      </div>
     </div>
   </section>
 
