@@ -26,19 +26,20 @@ function regionIcon(slug, size) {
 async function setupRegionMap() {
   const [allRegions, allRecipes] = await Promise.all([getRegions(), getRecipes()]);
   const panel = document.getElementById('regionPanel');
-  const map = document.getElementById('italyMap');
-  const buttons = document.querySelectorAll('.region-btn');
+  const mapImage = document.getElementById('italyMap');
+  // The region chips AND the pins on the map: both choose a region
+  const buttons = document.querySelectorAll('.region-btn, .map-pin');
 
   function showRegion(slug) {
     const region = allRegions.find(r => r.slug === slug);
     const dishes = region.featured_recipe_ids.map(id => allRecipes.find(r => r.id === id)).filter(Boolean);
 
-    // Button state (CSS styles the pressed one)
+    // Pressed state on chips and pins (CSS styles the pressed ones, so the
+    // look and what a screen reader announces always match)
     buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.region === slug)));
 
-    // Map highlight and its text alternative
-    map.querySelectorAll('.map-area').forEach(area => area.classList.toggle('is-active', area.dataset.region === slug));
-    map.setAttribute('aria-label', `Map of Italy with ${region.name} highlighted`);
+    // Keep the map's text alternative up to date
+    mapImage.alt = `Illustrated map of Italy's 20 regions. ${region.name} is selected.`;
 
     panel.innerHTML = `
       <h3 class="region-panel__title">${escapeHtml(region.name)}</h3>

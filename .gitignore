@@ -1,0 +1,16 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor settings and local tools
+.vscode/
+.idea/
+fiveserver.config.js
+node_modules/
+
+# Logs
+*.log
+
+# Phase 2: local database password file (never commit real credentials)
+foodfusion/includes/config.local.php

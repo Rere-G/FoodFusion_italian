@@ -25,3 +25,9 @@ Fill in "Actual result" and "Pass/Fail" yourself when you run each test in XAMPP
 | T19 | Events | Carousel | Click next arrow | Posters move on by one event; "From …" date updates | | | |
 | T20 | Accessibility | Keyboard only | Tab through whole homepage | Every control reachable, visible focus outline, skip link works | | | |
 | T21 | Responsive | No sideways scroll | View at 320px wide | No horizontal scrollbar | | | |
+| T22 | Hero | Scene animates | Open index.php and watch the hero for 10 seconds | Waves drift, boats bob, glints sparkle, wind lines blow across; branch and lemons swing more when a wind line reaches them | | | |
+| T23 | Hero | Mouse breeze | Move the mouse quickly left and right over the hero | Lemons swing harder, then settle down | | | |
+| T24 | Hero | Reduced motion | Windows: Settings > Accessibility > Visual effects > Animation effects OFF, reload | Hero scene is completely still | | | |
+| T25 | Hero | Pauses off screen | Scroll down to the footer, check CPU in Task Manager | Animation stops while the hero is not visible | | | |
+| T26 | Map | Pins choose a region | Click the pin on Sicily | Pin grows and turns red, "Islands" chip is pressed, island dishes shown | | | |
+| T27 | Join us | Close button | Open Join us, click the ✕ | Pop-up closes | Pop-up stayed open | Fail → Pass | .modal-body covered the button; added z-index: 2 to .join-modal__close |

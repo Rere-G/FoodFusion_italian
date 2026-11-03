@@ -14,8 +14,12 @@ Add every outside source here as it is used: libraries, fonts, images, tutorials
 
 - MDN Web Docs (n.d.) *Screen Wake Lock API*. Available at: https://developer.mozilla.org/en-US/docs/Web/API/Screen_Wake_Lock_API (Accessed: 3 November 2026).
 - MDN Web Docs (n.d.) *Document: cookie property*. Available at: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie (Accessed: 3 November 2026).
+- MDN Web Docs (n.d.) *Window: requestAnimationFrame() method*. Available at: https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame (Accessed: 3 November 2026).
+- MDN Web Docs (n.d.) *prefers-reduced-motion*. Available at: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion (Accessed: 3 November 2026).
 - WebAIM (n.d.) *Contrast checker*. Available at: https://webaim.org/resources/contrastchecker/ (Accessed: 3 November 2026).
 
 ## Images
 
-_None yet: the homepage uses labelled photo placeholders. Record photographer, title, site and URL for each photo when added._
+- **Map of Italy's regions** (`assets/img/italy-regions-map.webp`): SOURCE NEEDED. Add the creator, title, website and URL, or write "Author's own illustration" if you made it.
+
+_Food photos: none yet (labelled placeholders). Record photographer, title, site and URL for each photo when added._
