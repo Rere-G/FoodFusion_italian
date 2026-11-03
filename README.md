@@ -26,7 +26,10 @@ The pages are `.php` files, so they must be opened through Apache, not by double
 
 ```
 foodfusion/
-├── index.php              Homepage (other pages sit next to it)
+├── index.php              Homepage
+├── recipes.php, recipe.php, community.php, about.php, contact.php
+├── culinary-resources.php, educational-resources.php
+├── privacy.php, cookies.php, login.php
 ├── includes/              Shared header, footer, cookie banner, Join us pop-up
 ├── assets/
 │   ├── css/style.css      Design tokens and all custom styles
@@ -42,7 +45,7 @@ foodfusion/
 
 | Phase | Scope | Status |
 |---|---|---|
-| 1. Frontend | All pages, responsive and accessible, placeholder data | In progress |
+| 1. Frontend | All 7 brief pages plus recipe, privacy, cookie and log-in pages; responsive and accessible; placeholder data and PDFs | Done (real photos and videos still to add) |
 | 2. Backend | MySQL database, registration, login with lockout, JSON web service | Not started |
 | 3. Report | Screenshots, ERD, testing table, reflection | Not started |
 
