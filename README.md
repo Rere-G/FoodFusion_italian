@@ -1,7 +1,6 @@
 # FoodFusion
 
-An Italian home-cooking community website, built for the NCC Education Level 5 Diploma unit
-**Back End Web Development (Paper 2183-1)**.
+An Italian home-cooking community website.
 
 Recipes from the Alps to Sicily, step-by-step cooking help, a community cookbook, and the
 stories of the families who cook them.
