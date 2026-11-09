@@ -1,0 +1,296 @@
+// FoodFusion database ERD (20 tables)
+// Paste into https://dbdiagram.io to get an editable diagram.
+// Types with a space in them (e.g. "INT UNSIGNED") are written in quotes.
+
+Project FoodFusion {
+  database_type: 'MySQL'
+  Note: 'Italian home-cooking community. NCC L5DC Back End Web Development.'
+}
+
+// ---------- ENUM values ----------
+Enum recipe_course {
+  antipasto
+  primo
+  secondo
+  contorno
+  dolce
+}
+
+Enum recipe_difficulty {
+  easy
+  medium
+  hard
+}
+
+Enum post_type {
+  recipe
+  tip
+  story
+}
+
+Enum resource_category {
+  culinary
+  educational
+}
+
+Enum resource_kind {
+  recipe_card
+  guide
+  infographic
+  video
+}
+
+Enum contact_reason {
+  enquiry
+  recipe_request
+  feedback
+}
+
+Enum message_status {
+  new
+  replied
+}
+
+// ---------- Accounts & security ----------
+Table users [headercolor: #1F3546] {
+  user_id "INT UNSIGNED" [pk, increment]
+  first_name "VARCHAR(50)" [not null]
+  last_name "VARCHAR(50)" [not null]
+  email "VARCHAR(255)" [not null, unique]
+  password_hash "VARCHAR(255)" [not null, note: 'password_hash() output, never the plain password']
+  location "VARCHAR(60)" [null]
+  failed_attempts "TINYINT UNSIGNED" [not null, default: 0]
+  lockout_until DATETIME [null, note: 'NOW() + 3 minutes after the 3rd failed attempt']
+  created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table password_resets [headercolor: #1F3546] {
+  reset_id "INT UNSIGNED" [pk, increment]
+  user_id "INT UNSIGNED" [not null]
+  token_hash "CHAR(64)" [not null]
+  expires_at DATETIME [not null]
+  used_at DATETIME [null]
+  created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table login_attempts [headercolor: #1F3546] {
+  attempt_id "BIGINT UNSIGNED" [pk, increment]
+  user_id "INT UNSIGNED" [null, note: 'NULL when the email matches no account']
+  email_entered "VARCHAR(255)" [not null]
+  ip_address "VARCHAR(45)" [not null, note: '45 characters fits IPv6']
+  succeeded BOOLEAN [not null]
+  attempted_at DATETIME [not null]
+}
+
+// ---------- Recipes ----------
+Table regions [headercolor: #B23E10] {
+  region_id "TINYINT UNSIGNED" [pk, increment]
+  slug "VARCHAR(20)" [not null, unique]
+  name "VARCHAR(50)" [not null]
+  name_it "VARCHAR(50)" [not null]
+  description TEXT
+}
+
+Table recipes [headercolor: #B23E10] {
+  recipe_id "INT UNSIGNED" [pk, increment]
+  region_id "TINYINT UNSIGNED" [not null]
+  title "VARCHAR(120)" [not null]
+  title_en "VARCHAR(120)" [not null]
+  description TEXT
+  course recipe_course [not null]
+  difficulty recipe_difficulty [not null]
+  time_minutes "SMALLINT UNSIGNED" [not null]
+  time_note "VARCHAR(60)" [null]
+  base_servings "TINYINT UNSIGNED" [not null]
+  kcal_per_serving "SMALLINT UNSIGNED" [null]
+  image_path "VARCHAR(255)" [null]
+  image_alt "VARCHAR(255)" [not null]
+  is_featured BOOLEAN [not null, default: false]
+  created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table recipe_ingredients [headercolor: #B23E10] {
+  ingredient_id "INT UNSIGNED" [pk, increment]
+  recipe_id "INT UNSIGNED" [not null]
+  sort_order "TINYINT UNSIGNED" [not null]
+  name "VARCHAR(120)" [not null]
+  metric_qty "DECIMAL(8,2)" [null, note: 'Per serving. NULL = to taste']
+  metric_unit "VARCHAR(10)" [not null]
+  us_qty "DECIMAL(8,2)" [null]
+  us_unit "VARCHAR(10)" [not null]
+  note "VARCHAR(60)" [null]
+}
+
+Table recipe_steps [headercolor: #B23E10] {
+  step_id "INT UNSIGNED" [pk, increment]
+  recipe_id "INT UNSIGNED" [not null]
+  step_number "TINYINT UNSIGNED" [not null]
+  instruction TEXT [not null]
+  time_minutes "SMALLINT UNSIGNED" [null]
+}
+
+Table dietary_tags [headercolor: #B23E10] {
+  dietary_id "TINYINT UNSIGNED" [pk, increment]
+  slug "VARCHAR(20)" [not null, unique]
+  label "VARCHAR(40)" [not null]
+}
+
+Table recipe_dietary [note: 'Junction table: many-to-many between recipes and dietary_tags'] {
+  recipe_id "INT UNSIGNED" [not null]
+  dietary_id "TINYINT UNSIGNED" [not null]
+
+  indexes {
+    (recipe_id, dietary_id) [pk]
+  }
+}
+
+Table saved_recipes [note: 'Junction table: many-to-many between users and recipes'] {
+  user_id "INT UNSIGNED" [not null]
+  recipe_id "INT UNSIGNED" [not null]
+  saved_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+
+  indexes {
+    (user_id, recipe_id) [pk]
+  }
+}
+
+// ---------- Community ----------
+Table community_posts [headercolor: #3A5A72] {
+  post_id "INT UNSIGNED" [pk, increment]
+  user_id "INT UNSIGNED" [not null]
+  region_id "TINYINT UNSIGNED" [not null]
+  type post_type [not null]
+  title "VARCHAR(100)" [not null]
+  body TEXT [not null]
+  ingredients_text TEXT [null]
+  steps_text TEXT [null]
+  place "VARCHAR(60)" [null]
+  image_path "VARCHAR(255)" [null]
+  is_featured BOOLEAN [not null, default: false]
+  created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table comments [headercolor: #3A5A72] {
+  comment_id "INT UNSIGNED" [pk, increment]
+  post_id "INT UNSIGNED" [not null]
+  user_id "INT UNSIGNED" [not null]
+  body TEXT [not null]
+  created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table post_likes [note: 'Junction table: many-to-many between users and community_posts. The composite PK stops double likes.'] {
+  user_id "INT UNSIGNED" [not null]
+  post_id "INT UNSIGNED" [not null]
+  liked_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+
+  indexes {
+    (user_id, post_id) [pk]
+  }
+}
+
+Table challenges [headercolor: #3A5A72] {
+  challenge_id "INT UNSIGNED" [pk, increment]
+  title "VARCHAR(100)" [not null]
+  description TEXT
+  rules TEXT
+  starts_on DATE [not null]
+  closes_on DATE [not null]
+}
+
+Table challenge_entries [headercolor: #3A5A72] {
+  entry_id "INT UNSIGNED" [pk, increment]
+  challenge_id "INT UNSIGNED" [not null]
+  post_id "INT UNSIGNED" [not null, unique, note: 'A post can enter a challenge only once']
+  entered_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+// ---------- Contact & site content ----------
+Table contact_messages [headercolor: #F0D08C] {
+  message_id "INT UNSIGNED" [pk, increment]
+  user_id "INT UNSIGNED" [null, note: 'NULL for visitors who are not logged in']
+  dish_region_id "TINYINT UNSIGNED" [null]
+  name "VARCHAR(80)" [not null]
+  email "VARCHAR(255)" [not null]
+  reason contact_reason [not null]
+  subject "VARCHAR(120)" [not null]
+  message TEXT [not null]
+  dish_name "VARCHAR(100)" [null]
+  rating "TINYINT UNSIGNED" [null, note: '1 to 5, feedback only']
+  status message_status [not null, default: 'new']
+  created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table team_members [headercolor: #F0D08C] {
+  member_id "INT UNSIGNED" [pk, increment]
+  favourite_recipe_id "INT UNSIGNED" [null]
+  name "VARCHAR(80)" [not null]
+  role "VARCHAR(80)" [not null]
+  role_it "VARCHAR(80)" [not null]
+  bio TEXT
+  home_town "VARCHAR(60)"
+}
+
+Table resources [headercolor: #F0D08C] {
+  resource_id "INT UNSIGNED" [pk, increment]
+  recipe_id "INT UNSIGNED" [null]
+  category resource_category [not null]
+  kind resource_kind [not null]
+  title "VARCHAR(120)" [not null]
+  description TEXT
+  file_path "VARCHAR(255)" [null]
+  file_type "VARCHAR(10)" [null]
+  file_size_kb "INT UNSIGNED" [null]
+  video_url "VARCHAR(255)" [null]
+}
+
+Table events [headercolor: #F0D08C] {
+  event_id "INT UNSIGNED" [pk, increment]
+  title "VARCHAR(100)" [not null]
+  title_it "VARCHAR(100)" [not null]
+  description TEXT
+  event_date DATE [not null]
+  start_time TIME [not null]
+  location "VARCHAR(100)" [not null]
+}
+
+Table news_articles [headercolor: #F0D08C] {
+  news_id "INT UNSIGNED" [pk, increment]
+  title "VARCHAR(120)" [not null]
+  summary "VARCHAR(300)" [not null]
+  body TEXT
+  image_path "VARCHAR(255)" [null]
+  published_on DATE [not null]
+}
+
+// ---------- Relationships (21) ----------
+// ">" means many-to-one: the left side is the "many" side with the foreign key.
+// "-" means one-to-one.
+
+// Accounts
+Ref: password_resets.user_id > users.user_id
+Ref: login_attempts.user_id > users.user_id
+Ref: contact_messages.user_id > users.user_id
+
+// Recipes
+Ref: recipes.region_id > regions.region_id
+Ref: recipe_ingredients.recipe_id > recipes.recipe_id [delete: cascade]
+Ref: recipe_steps.recipe_id > recipes.recipe_id [delete: cascade]
+Ref: recipe_dietary.recipe_id > recipes.recipe_id [delete: cascade]
+Ref: recipe_dietary.dietary_id > dietary_tags.dietary_id
+Ref: saved_recipes.user_id > users.user_id [delete: cascade]
+Ref: saved_recipes.recipe_id > recipes.recipe_id [delete: cascade]
+
+// Community
+Ref: community_posts.user_id > users.user_id
+Ref: community_posts.region_id > regions.region_id
+Ref: comments.post_id > community_posts.post_id [delete: cascade]
+Ref: comments.user_id > users.user_id
+Ref: post_likes.user_id > users.user_id [delete: cascade]
+Ref: post_likes.post_id > community_posts.post_id [delete: cascade]
+Ref: challenge_entries.challenge_id > challenges.challenge_id
+Ref: challenge_entries.post_id - community_posts.post_id
+
+// Contact & content
+Ref: contact_messages.dish_region_id > regions.region_id
+Ref: team_members.favourite_recipe_id > recipes.recipe_id
+Ref: resources.recipe_id > recipes.recipe_id
