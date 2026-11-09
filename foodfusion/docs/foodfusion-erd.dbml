@@ -1,4 +1,4 @@
-// FoodFusion database ERD (20 tables)
+// FoodFusion database ERD (20 tables, 25 relationships)
 // Paste into https://dbdiagram.io to get an editable diagram.
 // Types with a space in them (e.g. "INT UNSIGNED") are written in quotes.
 
@@ -245,6 +245,8 @@ Table resources [headercolor: #F0D08C] {
 
 Table events [headercolor: #F0D08C] {
   event_id "INT UNSIGNED" [pk, increment]
+  host_member_id "INT UNSIGNED" [null, note: 'Team member who runs the class']
+  region_id "TINYINT UNSIGNED" [null, note: 'Region the class cooks from']
   title "VARCHAR(100)" [not null]
   title_it "VARCHAR(100)" [not null]
   description TEXT
@@ -255,6 +257,8 @@ Table events [headercolor: #F0D08C] {
 
 Table news_articles [headercolor: #F0D08C] {
   news_id "INT UNSIGNED" [pk, increment]
+  author_member_id "INT UNSIGNED" [null, note: 'Team member who wrote the article']
+  recipe_id "INT UNSIGNED" [null, note: 'Featured recipe in the news feed']
   title "VARCHAR(120)" [not null]
   summary "VARCHAR(300)" [not null]
   body TEXT
@@ -262,7 +266,7 @@ Table news_articles [headercolor: #F0D08C] {
   published_on DATE [not null]
 }
 
-// ---------- Relationships (21) ----------
+// ---------- Relationships (25) ----------
 // ">" means many-to-one: the left side is the "many" side with the foreign key.
 // "-" means one-to-one.
 
@@ -294,3 +298,7 @@ Ref: challenge_entries.post_id - community_posts.post_id
 Ref: contact_messages.dish_region_id > regions.region_id
 Ref: team_members.favourite_recipe_id > recipes.recipe_id
 Ref: resources.recipe_id > recipes.recipe_id
+Ref: events.host_member_id > team_members.member_id
+Ref: events.region_id > regions.region_id
+Ref: news_articles.author_member_id > team_members.member_id
+Ref: news_articles.recipe_id > recipes.recipe_id
