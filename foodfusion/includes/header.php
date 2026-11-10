@@ -36,14 +36,15 @@ $navLinks = [
   <!-- Fonts: Abril Fatface (display), Instrument Serif (Italian lines), Figtree (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Figtree:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Figtree:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
 
   <!-- Bootstrap 5.3.3 and Bootstrap Icons 1.11.3 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <!-- Our styles load last so they win over Bootstrap's defaults -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- ?v= is the file's last-modified time, so browsers fetch it again after every edit -->
+  <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>">
 </head>
 <body data-page="<?= htmlspecialchars($currentPage) ?>">
 

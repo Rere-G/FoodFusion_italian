@@ -34,7 +34,8 @@ include 'includes/header.php';
       </defs>
       <!-- Still background, painted with the oil texture -->
       <g filter="url(#oilPaint)">
-        <rect x="0" y="0" width="1440" height="800" fill="#93B6CE"/>
+        <!-- Bleeds past the viewBox so the filter's edge wobble stays off-screen (straight seam under the header) -->
+        <rect x="-40" y="-40" width="1520" height="880" fill="#93B6CE"/>
         <ellipse cx="300" cy="120" rx="420" ry="70" fill="#A8C5D9" opacity="0.8"/>
         <ellipse cx="1150" cy="60" rx="380" ry="50" fill="#A8C5D9" opacity="0.7"/>
         <ellipse cx="900" cy="230" rx="500" ry="60" fill="#86AAC3" opacity="0.6"/>
@@ -178,7 +179,7 @@ include 'includes/header.php';
                 <svg width="34" height="26" viewBox="0 0 40 32"><path d="M22,7 C26,0 34,0 38,3 C34,9 27,10 22,7 Z" fill="#3F7A3A"/><ellipse cx="18" cy="19" rx="14" ry="10" fill="#F2C84B" transform="rotate(-20 18 19)"/><ellipse cx="5" cy="23" rx="3" ry="2.4" fill="#F2C84B"/></svg>
                 <span></span>
               </div>
-              <p class="ff-italian hero__italian">Cucina italiana, fatta in casa.</p>
+              <p class="ff-italian hero__italian"><span class="visually-hidden">Cucina italiana, fatta in casa.</span><span class="hero__typed" id="heroTyped" aria-hidden="true">Cucina italiana, fatta in casa.</span></p>
               <p class="hero__lead">Recipes from the Alps to Sicily, step-by-step cooking help, and the stories of the families who cook them.</p>
               <div class="d-flex flex-wrap gap-3 mt-4">
                 <a class="ff-btn ff-btn--primary ff-btn--lg" href="#map"><i class="bi bi-map" aria-hidden="true"></i> Explore the map</a>
@@ -204,7 +205,146 @@ include 'includes/header.php';
   <div class="ff-stripes" aria-hidden="true"></div>
 
 
-  <!-- 2. INTERACTIVE MAP ================================================== -->
+  <!-- 2. MISSION ========================================================== -->
+  <section class="ff-section ff-section--cream mission" aria-labelledby="missionTitle">
+    <div class="container-xl">
+      <div class="row g-4 g-lg-5 align-items-center">
+        <div class="col-lg-6" data-reveal>
+          <p class="eyebrow"><i class="bi bi-heart-fill" aria-hidden="true"></i> Our mission</p>
+          <h2 class="ff-heading" id="missionTitle">Every family recipe deserves a seat at the table.</h2>
+          <p class="ff-italian ff-italian--lg">La nostra missione</p>
+          <p class="mission__lead">FoodFusion collects Italy's home cooking, tests every recipe in an ordinary kitchen and explains it step by step, so anyone can cook it and every family can add their own.</p>
+
+          <ul class="mission-pillars">
+            <li data-reveal style="--delay: 0.1s">
+              <span class="mission-pillars__icon"><i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i></span>
+              <span><strong>Keep the recipes</strong> Dishes from all 20 regions, written down before they are forgotten.</span>
+            </li>
+            <li data-reveal style="--delay: 0.2s">
+              <span class="mission-pillars__icon"><i class="bi bi-mortarboard-fill" aria-hidden="true"></i></span>
+              <span><strong>Teach the method</strong> Scalable amounts, timers and a hands-free cook mode.</span>
+            </li>
+            <li data-reveal style="--delay: 0.3s">
+              <span class="mission-pillars__icon"><i class="bi bi-people-fill" aria-hidden="true"></i></span>
+              <span><strong>Share the table</strong> A Community Cookbook where your nonna's version sits beside ours.</span>
+            </li>
+          </ul>
+
+          <!-- Counters count up from 0 when they scroll into view (home.js) -->
+          <dl class="mission-stats">
+            <div><dt>Tested recipes</dt><dd><span data-count="19" data-stat="recipes">19</span></dd></div>
+            <div><dt>Regions of Italy</dt><dd><span data-count="20">20</span></dd></div>
+            <div><dt>Family stories</dt><dd><span data-count="9" data-suffix="+" data-stat="posts">9+</span></dd></div>
+          </dl>
+        </div>
+
+        <div class="col-lg-6" data-reveal style="--delay: 0.15s">
+          <!-- A pot on the boil: the steam rises and the basil and tomatoes drift -->
+          <svg class="mission-art" viewBox="0 0 440 400" aria-hidden="true" focusable="false">
+            <circle cx="220" cy="210" r="170" fill="#F0D08C"/>
+            <circle cx="220" cy="210" r="170" fill="none" stroke="#1F3546" stroke-width="2" stroke-dasharray="4 10"/>
+            <g class="mission-art__steam" fill="none" stroke="#FFF8EE" stroke-width="9" stroke-linecap="round">
+              <path d="M180,150 C166,126 194,112 180,86" style="--i: 0"/>
+              <path d="M220,146 C206,118 236,104 220,72" style="--i: 1"/>
+              <path d="M260,150 C246,126 274,112 260,86" style="--i: 2"/>
+            </g>
+            <path d="M296,182 L360,112" stroke="#A8692F" stroke-width="10" stroke-linecap="round"/>
+            <ellipse cx="364" cy="106" rx="16" ry="11" fill="#C98A4B" transform="rotate(-48 364 106)"/>
+            <rect x="122" y="176" width="196" height="22" rx="11" fill="#8F310C"/>
+            <path d="M132,196 H308 V284 C308,312 290,326 262,326 H178 C150,326 132,312 132,284 Z" fill="#B23E10"/>
+            <path d="M132,226 H308" stroke="#D24E1A" stroke-width="8"/>
+            <rect x="100" y="214" width="36" height="16" rx="8" fill="#1F3546"/>
+            <rect x="304" y="214" width="36" height="16" rx="8" fill="#1F3546"/>
+            <rect x="110" y="330" width="220" height="12" rx="6" fill="#1F3546"/>
+            <g class="float-slow">
+              <circle cx="92" cy="128" r="26" fill="#D24E1A"/>
+              <path d="M84,104 C88,96 98,96 102,104 C96,108 90,108 84,104 Z" fill="#3F7A3A"/>
+            </g>
+            <g class="float-slower">
+              <circle cx="360" cy="300" r="20" fill="#D24E1A"/>
+              <path d="M354,282 C357,276 365,276 368,282 C363,285 358,285 354,282 Z" fill="#3F7A3A"/>
+            </g>
+            <path class="float-slower" d="M58,262 C70,238 98,236 108,246 C96,266 74,272 58,262 Z" fill="#3F7A3A"/>
+            <path class="float-slow" d="M340,62 C356,44 384,46 390,58 C374,74 352,76 340,62 Z" fill="#4E8F46"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 3. FEATURED RECIPES (Bootstrap carousel) ========================== -->
+  <section class="ff-section ff-section--marine spotlight" aria-labelledby="spotlightHeading">
+    <div class="container-xl">
+      <h2 class="visually-hidden" id="spotlightHeading">Featured recipes</h2>
+      <!-- Slides and recipe tabs are filled in by home.js from getFeaturedRecipes().
+           No auto-advance: visitors move between recipes with the tabs (or by swiping). -->
+      <div id="spotlightCarousel" class="carousel slide carousel-fade" data-bs-interval="false" data-bs-touch="true"
+           aria-roledescription="carousel" aria-label="Featured recipes">
+        <div class="carousel-inner" id="spotlightSlides">
+          <p class="loading-note">Loading the featured recipes&hellip;</p>
+        </div>
+        <div class="spotlight__nav">
+          <div class="carousel-indicators spotlight__tabs" id="spotlightTabs"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 4. LATEST RECIPES =================================================== -->
+  <section class="ff-section ff-section--sable latest" aria-labelledby="latestTitle">
+    <div class="container-xl">
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="eyebrow"><i class="bi bi-stars" aria-hidden="true"></i> Just added</p>
+          <h2 class="ff-heading" id="latestTitle">Latest recipes</h2>
+          <p class="ff-italian ff-italian--lg">Appena sfornate</p>
+        </div>
+        <a class="ff-btn ff-btn--navy" href="recipes.php">All recipes <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <!-- Filled in by home.js: the four newest recipes -->
+      <ul class="latest-grid" id="latestRecipes"><li class="loading-note">Loading recipes&hellip;</li></ul>
+    </div>
+  </section>
+
+
+  <!-- 5. CULINARY TRENDS: Bootstrap carousel ============================== -->
+  <section class="ff-section ff-section--piscine trends" aria-labelledby="trendsTitle">
+    <!-- Drifting kitchen bits in the background -->
+    <svg class="trends__deco trends__deco--left float-slow" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+      <ellipse cx="60" cy="66" rx="34" ry="44" fill="#F2C84B" transform="rotate(-24 60 66)"/>
+      <path d="M58,22 C70,4 96,6 100,18 C86,30 68,30 58,22 Z" fill="#3F7A3A"/>
+    </svg>
+    <svg class="trends__deco trends__deco--right float-slower" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+      <path d="M20,90 C40,40 80,30 104,20 C96,50 70,92 20,90 Z" fill="#3F7A3A"/>
+      <path d="M26,86 C50,64 72,44 100,24" stroke="#5E7F45" stroke-width="3" fill="none"/>
+    </svg>
+
+    <div class="container-xl position-relative">
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="eyebrow eyebrow--navy"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i> What's cooking</p>
+          <h2 class="ff-heading" id="trendsTitle">Culinary trends</h2>
+          <p class="ff-italian ff-italian--lg ff-italian--navy">Tendenze in cucina</p>
+        </div>
+        <div class="carousel-nav">
+          <p class="carousel-nav__status" id="trendsStatus" aria-live="polite"></p>
+          <button type="button" class="icon-btn icon-btn--lg" data-bs-target="#trendsCarousel" data-bs-slide="prev" aria-label="Previous trend"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+          <button type="button" class="icon-btn icon-btn--lg" data-bs-target="#trendsCarousel" data-bs-slide="next" aria-label="Next trend"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <!-- Trend cards, several per slide (setupGroupedCarousel). Bootstrap's default wrap keeps sliding forward
+           from the last slide into the first. No data-bs-ride: it moves only on request. -->
+      <div id="trendsCarousel" class="carousel slide ff-carousel trend-carousel" aria-roledescription="carousel" aria-labelledby="trendsTitle" data-reveal style="--delay: 0.1s">
+        <div class="carousel-inner" id="newsList"><p class="loading-note">Loading trends&hellip;</p></div>
+        <div class="carousel-indicators ff-carousel__dots" id="trendsDots"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 6. INTERACTIVE MAP ================================================== -->
   <section class="ff-section ff-section--cream" id="map" aria-labelledby="mapTitle">
     <div class="container-xl">
       <div class="section-head section-head--center">
@@ -256,7 +396,7 @@ include 'includes/header.php';
     </div>
   </section>
 
-  <!-- 3. COOK ALONG (servings scaler + cook mode) ========================= -->
+  <!-- 7. COOK ALONG (servings scaler + cook mode) ========================= -->
   <section class="ff-section ff-section--marine" aria-labelledby="cookTitle">
     <div class="container-xl">
       <div class="section-head section-head--split">
@@ -272,7 +412,7 @@ include 'includes/header.php';
   </section>
 
 
-  <!-- 4. POSTCARD STORIES ================================================= -->
+  <!-- 8. POSTCARD STORIES ================================================= -->
   <section class="ff-section ff-section--sable" aria-labelledby="storiesTitle">
     <div class="container-xl">
       <div class="section-head section-head--split">
@@ -287,7 +427,7 @@ include 'includes/header.php';
   </section>
 
 
-  <!-- 5. MONTHLY CHALLENGE ================================================ -->
+  <!-- 9. MONTHLY CHALLENGE ================================================ -->
   <section class="ff-section ff-section--cream" aria-labelledby="challengeTitle">
     <div class="container-xl">
       <!-- community.js fills the ticket and the entries (the same code runs on community.php) -->
@@ -298,7 +438,7 @@ include 'includes/header.php';
   </section>
 
 
-  <!-- 6. UPCOMING EVENTS: Bootstrap carousel ============================== -->
+  <!-- 10. UPCOMING EVENTS: Bootstrap carousel ============================= -->
   <section class="ff-section ff-section--piscine" aria-labelledby="eventsTitle">
     <div class="container-xl">
       <div class="section-head section-head--split">
@@ -306,37 +446,17 @@ include 'includes/header.php';
           <h2 class="ff-heading" id="eventsTitle">Cook with us</h2>
           <p class="ff-italian ff-italian--lg ff-italian--navy">Prossimi eventi</p>
         </div>
-        <!-- Arrows control the carousel below through data-bs-target -->
-        <div class="carousel-nav">
-          <p class="carousel-nav__status" id="eventsStatus" aria-live="polite"></p>
-          <button type="button" class="icon-btn icon-btn--lg" data-bs-target="#eventsCarousel" data-bs-slide="prev" aria-label="Previous events"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
-          <button type="button" class="icon-btn icon-btn--lg" data-bs-target="#eventsCarousel" data-bs-slide="next" aria-label="Next events"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-        </div>
+        <p class="carousel-nav__status" id="eventsStatus" aria-live="polite"></p>
       </div>
 
-      <!-- No data-bs-ride: the carousel only moves when the visitor asks it to -->
-      <div id="eventsCarousel" class="carousel slide ff-carousel mt-4" aria-roledescription="carousel" aria-labelledby="eventsTitle">
+      <!-- Big photo slide with the next events peeking in (home.js).
+           No data-bs-ride: the carousel only moves when the visitor asks it to -->
+      <div id="eventsCarousel" class="carousel slide event-stage mt-4" aria-roledescription="carousel" aria-labelledby="eventsTitle">
         <div class="carousel-inner"><p class="loading-note">Loading events&hellip;</p></div>
-        <div class="carousel-indicators ff-carousel__dots"></div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- 7. NEWS FEED: featured recipes and culinary trends ================== -->
-  <section class="ff-section ff-section--cream" aria-labelledby="newsTitle">
-    <div class="container-xl">
-      <h2 class="ff-heading ff-heading--sm" id="newsTitle">From the kitchen</h2>
-      <p class="ff-italian ff-italian--lg">Notizie dalla cucina</p>
-      <div class="row g-4 g-lg-5 mt-1">
-        <div class="col-lg-4">
-          <h3 class="h4 fw-bold">Featured recipes</h3>
-          <ul class="feature-list" id="featuredRecipes"></ul>
-          <a class="ff-btn ff-btn--outline mt-3" href="recipes.php">Browse all recipes</a>
-        </div>
-        <div class="col-lg-8">
-          <h3 class="h4 fw-bold">Trends in the kitchen</h3>
-          <div class="news-grid news-grid--two" id="newsList"></div>
+        <div class="event-stage__controls">
+          <button type="button" class="icon-btn icon-btn--lg event-stage__arrow event-stage__arrow--prev" data-bs-target="#eventsCarousel" data-bs-slide="prev" aria-label="Previous event"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+          <div class="carousel-indicators ff-carousel__dots"></div>
+          <button type="button" class="icon-btn icon-btn--lg event-stage__arrow event-stage__arrow--next" data-bs-target="#eventsCarousel" data-bs-slide="next" aria-label="Next event"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
         </div>
       </div>
     </div>

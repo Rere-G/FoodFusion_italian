@@ -48,7 +48,7 @@ const recipes = [
     region: 'centre', course: 'antipasto', dietary: ['vegan'], difficulty: 'easy',
     time_minutes: 15, base_servings: 4,
     description: 'Charred country bread rubbed with garlic and piled with ripe, basil-scented tomatoes.',
-    image: null, image_alt: 'Slices of toasted bread topped with diced tomato and basil',
+    image: 'assets/img/recipes/bruschetta-al-pomodoro.webp', image_alt: 'Slices of toasted bread topped with diced tomato and basil',
     ingredients: [
       ing('Slices of rustic bread', 2, '', 2, ''),
       ing('Ripe plum tomatoes, diced', 75, 'g', 2.6, 'oz'),
@@ -69,7 +69,7 @@ const recipes = [
     region: 'south', course: 'antipasto', dietary: ['vegetarian', 'gluten_free'], difficulty: 'easy',
     time_minutes: 10, base_servings: 4,
     description: 'The colours of the Italian flag on a plate: tomato, mozzarella and basil from Capri.',
-    image: null, image_alt: 'Alternating slices of tomato and mozzarella with basil leaves',
+    image: 'assets/img/recipes/insalata-caprese.webp', image_alt: 'Alternating slices of tomato and mozzarella with basil leaves',
     ingredients: [
       ing('Ripe tomatoes, sliced', 125, 'g', 4.4, 'oz'),
       ing('Buffalo mozzarella, sliced', 60, 'g', 2.1, 'oz'),
@@ -89,7 +89,7 @@ const recipes = [
     region: 'islands', course: 'antipasto', dietary: ['vegetarian'], difficulty: 'hard',
     time_minutes: 90, base_servings: 6,
     description: 'Sicilian saffron rice balls with a melting mozzarella and pea centre, fried until golden.',
-    image: null, image_alt: 'Golden fried rice balls, one broken open to show melted cheese',
+    image: 'assets/img/recipes/arancini.webp', image_alt: 'Golden fried rice balls, one broken open to show melted cheese',
     ingredients: [
       ing('Arborio rice', 50, 'g', 0.25, 'cup'),
       ing('Hot vegetable stock', 150, 'ml', 0.6, 'cup'),
@@ -114,7 +114,7 @@ const recipes = [
     region: 'north', course: 'antipasto', dietary: ['vegan', 'gluten_free'], difficulty: 'easy',
     time_minutes: 40, time_note: 'rest batter 4 hr', base_servings: 4,
     description: 'A thin, crisp-edged chickpea pancake from Liguria, baked in a very hot oven.',
-    image: null, image_alt: 'A large thin golden chickpea flatbread cut into wedges',
+    image: 'assets/img/recipes/farinata.webp', image_alt: 'A large thin golden chickpea flatbread cut into wedges',
     ingredients: [
       ing('Chickpea flour', 50, 'g', 0.4, 'cup'),
       ing('Cold water', 150, 'ml', 0.6, 'cup'),
@@ -136,7 +136,7 @@ const recipes = [
     region: 'centre', course: 'primo', dietary: [], difficulty: 'medium',
     time_minutes: 25, base_servings: 4,
     description: 'The Roman classic: no cream, just egg, Pecorino, pepper and crisp guanciale.',
-    image: null, image_alt: 'Glossy spaghetti carbonara with pieces of crisp guanciale',
+    image: 'assets/img/recipes/spaghetti-alla-carbonara.webp', image_alt: 'Glossy spaghetti carbonara with pieces of crisp guanciale',
     ingredients: [
       ing('Spaghetti', 100, 'g', 3.5, 'oz'),
       ing('Guanciale, cut into strips', 40, 'g', 1.4, 'oz'),
@@ -158,7 +158,7 @@ const recipes = [
     region: 'centre', course: 'primo', dietary: ['vegetarian'], difficulty: 'medium',
     time_minutes: 20, base_servings: 2,
     description: 'Three ingredients and one technique: turning cheese and pasta water into a silky sauce.',
-    image: null, image_alt: 'Tonnarelli coated in a creamy Pecorino and black pepper sauce',
+    image: 'assets/img/recipes/cacio-e-pepe.webp', image_alt: 'Tonnarelli coated in a creamy Pecorino and black pepper sauce',
     ingredients: [
       ing('Tonnarelli or spaghetti', 100, 'g', 3.5, 'oz'),
       ing('Pecorino Romano, finely grated', 50, 'g', 0.5, 'cup'),
@@ -178,7 +178,7 @@ const recipes = [
     region: 'north', course: 'primo', dietary: ['gluten_free'], difficulty: 'medium',
     time_minutes: 40, base_servings: 4,
     description: 'Golden saffron risotto from Milan, finished with butter and Parmigiano.',
-    image: null, image_alt: 'Golden saffron risotto in a shallow white bowl',
+    image: 'assets/img/recipes/risotto-alla-milanese.webp', cutout_image: 'assets/img/featured-risotto-alla-milanese.webp', image_alt: 'Golden saffron risotto in a shallow white bowl',
     ingredients: [
       ing('Carnaroli or arborio rice', 80, 'g', 0.4, 'cup'),
       ing('Hot chicken or vegetable stock', 250, 'ml', 1, 'cup'),
@@ -201,7 +201,7 @@ const recipes = [
     region: 'north', course: 'primo', dietary: ['vegetarian'], difficulty: 'medium',
     time_minutes: 30, base_servings: 4,
     description: 'Short Ligurian pasta twists with pesto pounded by hand in a mortar.',
-    image: null, image_alt: 'Short twisted pasta coated in bright green pesto',
+    image: 'assets/img/recipes/trofie-al-pesto.webp', image_alt: 'Short twisted pasta coated in bright green pesto',
     ingredients: [
       ing('Trofie pasta', 100, 'g', 3.5, 'oz'),
       ing('Basil leaves', 15, 'g', 0.75, 'cup'),
@@ -224,7 +224,7 @@ const recipes = [
     region: 'islands', course: 'primo', dietary: ['vegetarian'], difficulty: 'easy',
     time_minutes: 45, base_servings: 4,
     description: 'Catania’s favourite: fried aubergine, tomato and salty ricotta.',
-    image: null, image_alt: 'Rigatoni with tomato sauce, fried aubergine and grated ricotta salata',
+    image: 'assets/img/recipes/pasta-alla-norma.webp', image_alt: 'Rigatoni with tomato sauce, fried aubergine and grated ricotta salata',
     ingredients: [
       ing('Rigatoni', 100, 'g', 3.5, 'oz'),
       ing('Aubergine, cubed', 100, 'g', 3.5, 'oz'),
@@ -247,7 +247,7 @@ const recipes = [
     region: 'north', course: 'primo', dietary: [], difficulty: 'hard',
     time_minutes: 180, base_servings: 6,
     description: 'Layers of egg pasta, slow-cooked ragù and béchamel, the Sunday lunch of Emilia-Romagna.',
-    image: null, image_alt: 'A square of layered lasagne showing ragù and béchamel',
+    image: 'assets/img/recipes/lasagne-alla-bolognese.webp', image_alt: 'A square of layered lasagne showing ragù and béchamel',
     ingredients: [
       ing('Fresh egg lasagne sheets', 2, '', 2, ''),
       ing('Beef mince', 70, 'g', 2.5, 'oz'),
@@ -275,7 +275,7 @@ const recipes = [
     region: 'centre', course: 'primo', dietary: ['vegan'], difficulty: 'easy',
     time_minutes: 120, base_servings: 6,
     description: 'A thick cucina povera soup of beans, cavolo nero and yesterday’s bread. Even better reboiled the next day.',
-    image: null, image_alt: 'A thick soup of bread, beans and dark greens in a rustic bowl',
+    image: 'assets/img/recipes/ribollita.webp', image_alt: 'A thick soup of bread, beans and dark greens in a rustic bowl',
     ingredients: [
       ing('Cooked cannellini beans', 80, 'g', 0.5, 'cup'),
       ing('Cavolo nero, shredded', 60, 'g', 2, 'oz'),
@@ -298,7 +298,7 @@ const recipes = [
     region: 'south', course: 'primo', dietary: ['vegetarian'], difficulty: 'hard',
     time_minutes: 45, time_note: 'plus 24 hr dough', base_servings: 4,
     description: 'Neapolitan-style pizza from a slow, cold-risen dough baked as hot as your oven goes.',
-    image: null, image_alt: 'A blistered pizza Margherita with tomato, mozzarella and basil',
+    image: 'assets/img/recipes/pizza-margherita.webp', cutout_image: 'assets/img/featured-pizza-margherita.webp', image_alt: 'A blistered pizza Margherita with tomato, mozzarella and basil',
     ingredients: [
       ing('Tipo 00 flour', 125, 'g', 1, 'cup'),
       ing('Cold water', 80, 'ml', 0.33, 'cup'),
@@ -323,7 +323,7 @@ const recipes = [
     region: 'north', course: 'secondo', dietary: ['gluten_free'], difficulty: 'hard',
     time_minutes: 150, base_servings: 4,
     description: 'Veal shanks braised until falling apart, finished with lemony gremolata.',
-    image: null, image_alt: 'A braised veal shank in sauce, sprinkled with gremolata',
+    image: 'assets/img/recipes/osso-buco.webp', image_alt: 'A braised veal shank in sauce, sprinkled with gremolata',
     ingredients: [
       ing('Veal shank slice, 4 cm thick', 1, '', 1, ''),
       ing('Rice flour, for dusting', 1, 'tbsp', 1, 'tbsp'),
@@ -348,7 +348,7 @@ const recipes = [
     region: 'centre', course: 'secondo', dietary: [], difficulty: 'medium',
     time_minutes: 25, base_servings: 4,
     description: '"Jumps in the mouth": thin veal topped with prosciutto and sage, in a butter and wine sauce.',
-    image: null, image_alt: 'Veal escalopes topped with prosciutto and sage leaves in a pan',
+    image: 'assets/img/recipes/saltimbocca-alla-romana.webp', image_alt: 'Veal escalopes topped with prosciutto and sage leaves in a pan',
     ingredients: [
       ing('Thin veal escalopes', 2, '', 2, ''),
       ing('Slices of prosciutto crudo', 2, '', 2, ''),
@@ -369,7 +369,7 @@ const recipes = [
     region: 'south', course: 'secondo', dietary: ['vegetarian'], difficulty: 'medium',
     time_minutes: 90, base_servings: 6,
     description: 'Fried aubergine layered with tomato, mozzarella and Parmigiano, baked until bubbling.',
-    image: null, image_alt: 'A slice of layered aubergine bake with tomato and melted cheese',
+    image: 'assets/img/recipes/parmigiana-di-melanzane.webp', image_alt: 'A slice of layered aubergine bake with tomato and melted cheese',
     ingredients: [
       ing('Aubergine', 200, 'g', 7, 'oz'),
       ing('Tomato passata', 125, 'ml', 0.5, 'cup'),
@@ -392,7 +392,7 @@ const recipes = [
     region: 'islands', course: 'contorno', dietary: ['vegan', 'gluten_free'], difficulty: 'easy',
     time_minutes: 60, base_servings: 4,
     description: 'Sicilian agrodolce: aubergine, celery, olives and capers in a sweet and sour tomato sauce.',
-    image: null, image_alt: 'A bowl of glossy aubergine caponata with olives and capers',
+    image: 'assets/img/recipes/caponata.webp', cutout_image: 'assets/img/featured-caponata.webp', image_alt: 'A bowl of glossy aubergine caponata with olives and capers',
     ingredients: [
       ing('Aubergine, cubed', 125, 'g', 4.4, 'oz'),
       ing('Celery, sliced', 40, 'g', 1.4, 'oz'),
@@ -417,7 +417,7 @@ const recipes = [
     region: 'north', course: 'dolce', dietary: ['vegetarian'], difficulty: 'medium',
     time_minutes: 30, time_note: 'chill 6 hr', base_servings: 6,
     description: '"Pick me up": coffee-soaked biscuits and airy mascarpone cream from the Veneto.',
-    image: null, image_alt: 'A square of tiramisù dusted with cocoa',
+    image: 'assets/img/recipes/tiramisu.webp', image_alt: 'A square of tiramisù dusted with cocoa',
     ingredients: [
       ing('Mascarpone', 85, 'g', 3, 'oz'),
       ing('Very fresh eggs, separated', 0.5, '', 0.5, ''),
@@ -440,7 +440,7 @@ const recipes = [
     region: 'north', course: 'dolce', dietary: ['gluten_free'], difficulty: 'easy',
     time_minutes: 20, time_note: 'set 4 hr', base_servings: 4,
     description: '"Cooked cream" from Piedmont with a gentle wobble, served with fresh berries.',
-    image: null, image_alt: 'A turned-out panna cotta with berries',
+    image: 'assets/img/recipes/panna-cotta.webp', image_alt: 'A turned-out panna cotta with berries',
     ingredients: [
       ing('Double cream', 125, 'ml', 0.5, 'cup'),
       ing('Whole milk', 25, 'ml', 2, 'tbsp'),
@@ -462,7 +462,7 @@ const recipes = [
     region: 'islands', course: 'dolce', dietary: ['vegetarian'], difficulty: 'hard',
     time_minutes: 60, base_servings: 6,
     description: 'Blistered fried shells filled at the last minute with sweet ricotta, chocolate and orange.',
-    image: null, image_alt: 'Cannoli filled with ricotta and dipped in chocolate chips',
+    image: 'assets/img/recipes/cannoli-siciliani.webp', image_alt: 'Cannoli filled with ricotta and dipped in chocolate chips',
     ingredients: [
       ing('Plain flour', 40, 'g', 0.33, 'cup'),
       ing('Marsala wine', 10, 'ml', 2, 'tsp'),
@@ -504,15 +504,15 @@ const posts = [
   { id: 1, user_name: 'Giulia', user_location: 'Bari', type: 'story', region: 'south', place: 'Bari', area: 'Puglia',
     title: 'Orecchiette con cime di rapa', created_at: '2026-10-28', likes: 18, featured: true,
     body: 'My grandmother shaped orecchiette every Sunday. She pressed each one with her thumb and never measured the flour.',
-    image: null, image_alt: 'Orecchiette drying on a wooden board' },
+    image: 'assets/img/postcard-orecchiette.jpg', image_alt: 'Orecchiette drying on a wooden board' },
   { id: 2, user_name: 'Paolo', user_location: 'Bologna', type: 'story', region: 'north', place: 'Bologna', area: 'Emilia-Romagna',
     title: 'Tagliatelle al ragù', created_at: '2026-10-24', likes: 24, featured: true,
     body: 'My nonno rolled the sfoglia so thin you could see the tablecloth pattern through it.',
-    image: null, image_alt: 'A thin sheet of egg pasta on a floured table' },
+    image: 'assets/img/postcard-tagliatelle.webp', image_alt: 'Nests of fresh egg tagliatelle on a floured table' },
   { id: 3, user_name: 'Francesca', user_location: 'Palermo', type: 'story', region: 'islands', place: 'Palermo', area: 'Sicily',
     title: 'Cannoli siciliani', created_at: '2026-10-19', likes: 15, featured: true,
     body: 'Every Easter my aunt wrapped the dough around short lengths of cane to fry the cannoli shells.',
-    image: null, image_alt: 'Cannoli shells cooling on a tray' },
+    image: 'assets/img/postcard-cannoli.webp', image_alt: 'Cannoli shells cooling on a tray' },
   { id: 4, user_name: 'Marco', user_location: 'Naples', type: 'recipe', region: 'south',
     title: 'Pasta e patate with provola', created_at: '2026-10-30', likes: 31, featured: true,
     body: 'The dish my mother made when the fridge was nearly empty. The potatoes melt into the pasta and the smoked provola makes it stringy.',
@@ -578,19 +578,23 @@ const challenge_entries = [
 
 /* ---------- Upcoming events ------------------------------------------ */
 const events = [
-  { id: 1, title: 'Fresh pasta by hand',           title_it: 'La pasta fresca',   event_date: '2026-11-14', start_time: '10:00', location: 'Online live class' },
-  { id: 2, title: 'Risotto for autumn',            title_it: "Risotto d'autunno", event_date: '2026-11-21', start_time: '18:00', location: 'Online cook-along' },
-  { id: 3, title: 'Pizza night, Neapolitan style', title_it: 'Pizza napoletana',  event_date: '2026-11-28', start_time: '18:30', location: 'Community kitchen' },
-  { id: 4, title: 'Tiramisù masterclass',          title_it: 'Il tiramisù',       event_date: '2026-12-05', start_time: '15:00', location: 'Online live class' },
-  { id: 5, title: 'Sicilian cannoli workshop',     title_it: 'Cannoli siciliani', event_date: '2026-12-12', start_time: '14:00', location: 'Online live class' },
-  { id: 6, title: 'Christmas biscotti bake',       title_it: 'Biscotti di Natale', event_date: '2026-12-19', start_time: '11:00', location: 'Community kitchen' }
+  { id: 1, title: 'Fresh pasta by hand',           title_it: 'La pasta fresca',   event_date: '2026-11-14', start_time: '10:00', location: 'Online live class', image: 'assets/img/event-fresh-pasta.jpg' },
+  { id: 2, title: 'Risotto for autumn',            title_it: "Risotto d'autunno", event_date: '2026-11-21', start_time: '18:00', location: 'Online cook-along', image: 'assets/img/event-risotto.jpg' },
+  { id: 3, title: 'Pizza night, Neapolitan style', title_it: 'Pizza napoletana',  event_date: '2026-11-28', start_time: '18:30', location: 'Community kitchen', image: 'assets/img/event-pizza.webp' },
+  { id: 4, title: 'Tiramisù masterclass',          title_it: 'Il tiramisù',       event_date: '2026-12-05', start_time: '15:00', location: 'Online live class', image: 'assets/img/event-tiramisu.jpg' },
+  { id: 5, title: 'Sicilian cannoli workshop',     title_it: 'Cannoli siciliani', event_date: '2026-12-12', start_time: '14:00', location: 'Online live class', image: 'assets/img/event-cannoli.webp' },
+  { id: 6, title: 'Christmas biscotti bake',       title_it: 'Biscotti di Natale', event_date: '2026-12-19', start_time: '11:00', location: 'Community kitchen', image: 'assets/img/event-biscotti.webp' }
 ];
 
 /* ---------- News feed: culinary trends ------------------------------- */
+/* tag and icon (a Bootstrap Icons class) label the card's photo */
 const news = [
-  { id: 1, title: 'Cucina povera is back',       summary: 'Stale bread, beans and greens become dinners like ribollita and panzanella.',            published_on: '2026-10-12', image: null, image_alt: 'Bread, beans and greens on a table' },
-  { id: 2, title: 'Pumpkin season in Mantua',    summary: 'Tortelli di zucca are a northern autumn classic. Make the filling a day ahead.',          published_on: '2026-10-06', image: null, image_alt: 'Pumpkin tortelli on a plate' },
-  { id: 3, title: 'Why the pasta shape matters', summary: 'Ridged rigatoni hold a chunky ragù; smooth linguine suit olive oil and seafood.',         published_on: '2026-09-29', image: null, image_alt: 'Dried pasta shapes in jars' }
+  { id: 1, title: 'Cucina povera is back',       tag: 'Budget',       icon: 'bi-piggy-bank',  summary: 'Stale bread, beans and greens become dinners like ribollita and panzanella.',                 published_on: '2026-10-12', image: 'assets/img/trends/trend-cucina-povera.webp', image_alt: 'A pan of bread and tomato salad' },
+  { id: 2, title: 'Pumpkin season in Mantua',    tag: 'Seasonal',     icon: 'bi-calendar3',   summary: 'Tortelli di zucca are a northern autumn classic. Make the filling a day ahead.',               published_on: '2026-10-06', image: 'assets/img/trends/trend-pumpkin-pasta.webp', image_alt: 'Trays of fresh pumpkin-filled pasta' },
+  { id: 3, title: 'Why the pasta shape matters', tag: 'Technique',    icon: 'bi-lightbulb',   summary: 'Ridged rigatoni hold a chunky ragù; smooth linguine suit olive oil and seafood.',              published_on: '2026-09-29', image: 'assets/img/trends/trend-pasta-shapes.webp', image_alt: 'Five dried pasta shapes in a row' },
+  { id: 4, title: 'Ancient grains in fresh pasta', tag: 'Ingredients', icon: 'bi-basket',     summary: 'Farro and spelt flour give fresh pasta a nutty taste and a lovely rough surface for sauce.',  published_on: '2026-09-22', image: 'assets/img/trends/trend-fresh-pasta.webp', image_alt: 'Rolling out fresh pasta dough by hand' },
+  { id: 5, title: 'Aperitivo at home',           tag: 'Entertaining', icon: 'bi-cup-straw',   summary: 'Olives, focaccia squares and a bowl of crisps: the easiest way to feed friends before dinner.', published_on: '2026-09-15', image: 'assets/img/trends/trend-aperitivo.webp', image_alt: 'Aperitivo drinks with bowls of nuts and snacks' },
+  { id: 6, title: 'Nothing goes to waste',       tag: 'Zero waste',   icon: 'bi-recycle',     summary: 'Parmigiano rinds, herb stalks and onion skins make a rich broth for risotto and soup.',         published_on: '2026-09-08', image: 'assets/img/trends/trend-broth.webp', image_alt: 'A clay pot of vegetable broth' }
 ];
 
 /* ---------- The team (About us) ---------------------------------------
@@ -623,16 +627,16 @@ const resources = [
   { id: 6,  category: 'culinary', kind: 'recipe_card', title: 'Tiramisù',                description: 'Printable A5 recipe card for the classic coffee and mascarpone dessert.',       recipe_id: 17, file_path: 'downloads/recipe-card-tiramisu.pdf',              file_type: 'PDF', file_size_kb: 4 },
   { id: 7,  category: 'culinary', kind: 'guide',       title: 'Fresh pasta by hand',     description: 'Step-by-step tutorial: the flour well, kneading, rolling and cutting tagliatelle.', file_path: 'downloads/tutorial-fresh-pasta-by-hand.pdf',   file_type: 'PDF', file_size_kb: 5 },
   { id: 8,  category: 'culinary', kind: 'guide',       title: '20 Italian kitchen hacks', description: 'Small habits from nonna’s kitchen that save time, money and flavour.',       file_path: 'downloads/guide-italian-kitchen-hacks.pdf',      file_type: 'PDF', file_size_kb: 5 },
-  { id: 9,  category: 'culinary', kind: 'video', title: 'How to make a creamy sauce with pasta water', description: 'Technique video: emulsifying cheese, oil and starchy water.', file_path: null, video_url: null },
-  { id: 10, category: 'culinary', kind: 'video', title: 'Rolling sfoglia with a rolling pin',          description: 'Technique video: rolling egg pasta thin by hand.',               file_path: null, video_url: null },
-  { id: 11, category: 'culinary', kind: 'video', title: 'Knife skills: the soffritto dice',            description: 'Kitchen hack video: dicing onion, carrot and celery evenly.',   file_path: null, video_url: null },
+  { id: 9,  category: 'culinary', kind: 'video', title: 'A creamy sauce from pasta water',  title_it: 'Cacio e pepe',  description: 'A Roman chef shows how starchy pasta water and Pecorino turn into a smooth sauce, with no cream.', recipe_id: 6,  file_path: null, video_url: 'https://www.youtube.com/watch?v=mlh8pAMQsOA', video_channel: 'Aden Films',        duration: '14:11', thumbnail_path: 'assets/img/videos/video-pasta-water.webp', skill: 'Emulsion' },
+  { id: 10, category: 'culinary', kind: 'video', title: 'Rolling sfoglia with a rolling pin', title_it: 'La sfoglia',   description: 'Italian grandmothers roll egg pasta thin with a long mattarello: stretch, turn and wrap.',          recipe_id: 10, file_path: null, video_url: 'https://www.youtube.com/watch?v=DMa02mpVchk', video_channel: 'Pasta Grannies',    duration: '4:24',  thumbnail_path: 'assets/img/videos/video-sfoglia.webp',     skill: 'Rolling' },
+  { id: 11, category: 'culinary', kind: 'video', title: 'Knife skills: the soffritto dice',   title_it: 'Il soffritto', description: 'Chop celery and carrot into tiny, even dice so they soften together: the base of ragù and soup.',  recipe_id: 11, file_path: null, video_url: 'https://www.youtube.com/watch?v=JGG9QLWBDmE', video_channel: 'La Cucina Caldesi', duration: '3:44',  thumbnail_path: 'assets/img/videos/video-soffritto.webp',   skill: 'Knife work' },
   { id: 12, category: 'educational', kind: 'infographic', title: 'Which hob uses the least energy?', description: 'Induction, electric, gas and solar cooking compared: efficiency, cost and carbon.', file_path: 'downloads/infographic-hob-energy-compared.pdf',  file_type: 'PDF', file_size_kb: 5 },
   { id: 13, category: 'educational', kind: 'infographic', title: '10 energy-saving cooking habits',  description: 'Lids, batch cooking, leftover heat and more, explained on one page for the fridge door.',        file_path: 'downloads/infographic-energy-saving-habits.pdf', file_type: 'PDF', file_size_kb: 6 },
   { id: 14, category: 'educational', kind: 'infographic', title: 'Cucina povera: zero-waste kitchen', description: 'How Italian home cooks turn leftovers into meals, and why it saves energy too.',     file_path: 'downloads/infographic-cucina-povera-zero-waste.pdf', file_type: 'PDF', file_size_kb: 6 },
   { id: 15, category: 'educational', kind: 'guide',       title: 'Cooking with renewable energy',    description: 'A home guide to solar cookers, green electricity tariffs, biogas and heat retention cooking.', file_path: 'downloads/guide-cooking-with-renewable-energy.pdf', file_type: 'PDF', file_size_kb: 6 },
-  { id: 16, category: 'educational', kind: 'video', title: 'How a solar cooker works',             description: 'Explainer video: reflectors, black pots and the greenhouse effect.', file_path: null, video_url: null },
-  { id: 17, category: 'educational', kind: 'video', title: 'Induction vs gas: what really happens', description: 'Explainer video: how each hob turns energy into heat in the pan.',  file_path: null, video_url: null },
-  { id: 18, category: 'educational', kind: 'video', title: 'Hay-box cooking: finish dishes with no fuel', description: 'Explainer video: retained-heat cooking for beans and grains.', file_path: null, video_url: null }
+  { id: 16, category: 'educational', kind: 'video', title: 'How a solar cooker works',              title_it: 'Il forno solare',     description: 'Shiny reflectors bounce sunlight into a closed box, and the trapped heat cooks a meal with no fuel at all.', recipe_id: 16, file_path: null, video_url: 'https://www.youtube.com/watch?v=Ofn7jqPDTeY', video_channel: 'National Geographic', duration: '3:11', thumbnail_path: 'assets/img/videos/video-solar-cooker.webp',  skill: 'Solar energy' },
+  { id: 17, category: 'educational', kind: 'video', title: 'Induction vs gas: what really happens', title_it: 'Induzione o gas?',    description: 'How each hob turns energy into heat in the pan, and why induction wastes far less of it.',               recipe_id: 7,  file_path: null, video_url: 'https://www.youtube.com/watch?v=JyTvHQnHq14', video_channel: 'PBS Food',            duration: '6:55', thumbnail_path: 'assets/img/videos/video-induction-gas.webp', skill: 'Efficient hobs' },
+  { id: 18, category: 'educational', kind: 'video', title: 'Hay-box cooking: finish dishes with no fuel', title_it: 'La cassetta di fieno', description: 'Bring a pot to the boil, then tuck it into an insulated box: the stored heat finishes beans and grains.',  recipe_id: 11, file_path: null, video_url: 'https://www.youtube.com/watch?v=FGLFeYNr2w0', video_channel: 'gaetanproductions',   duration: '4:54', thumbnail_path: 'assets/img/videos/video-hay-box.webp',        skill: 'Retained heat' }
 ];
 
 

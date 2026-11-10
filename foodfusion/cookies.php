@@ -62,6 +62,7 @@ include 'includes/header.php';
 
           <h2>Third-party cookies</h2>
           <p>We do not use advertising or tracking cookies. Share buttons are plain links, so no social media cookies are set until you choose to visit that site.</p>
+          <p>The videos on <a href="culinary-resources.php">Culinary resources</a> and <a href="educational-resources.php">Educational resources</a> come from YouTube. Nothing loads from YouTube until you press Play. The player then uses YouTube's privacy-enhanced mode (youtube-nocookie.com), but YouTube may still store data in your browser once the video plays. Read <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
 
           <h2>Managing cookies in your browser</h2>
           <p>You can also delete or block cookies in your browser settings. Blocking essential cookies may stop log-in from working. Read our <a href="privacy.php">privacy policy</a> for more about your data.</p>

@@ -38,9 +38,19 @@
   ];
   document.getElementById('recipeMeta').innerHTML = chips.join('');
 
-  // The photo placeholder's caption (the basil drawing inside it stays)
+  // The dish photo inside the arch; without one, the placeholder gets a caption.
+  // The basil drawing stays either way, hanging over the frame.
   const photo = document.getElementById('recipePhoto');
-  photo.insertAdjacentText('beforeend', `Photo: ${recipe.image_alt}`);
+  if (recipe.image) {
+    const img = document.createElement('img');
+    img.className = 'arch-photo__img';
+    img.src = recipe.image;
+    img.alt = recipe.image_alt;
+    photo.classList.remove('photo-placeholder');
+    photo.prepend(img);   // before the basil, so the sprig sits on top
+  } else {
+    photo.insertAdjacentText('beforeend', `Photo: ${recipe.image_alt}`);
+  }
 
   // Social sharing (share.js)
   document.getElementById('recipeShare').innerHTML =

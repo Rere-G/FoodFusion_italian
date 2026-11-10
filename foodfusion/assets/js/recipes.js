@@ -23,8 +23,94 @@
   const countEl = document.getElementById('resultCount');
   const emptyEl = document.getElementById('noResults');
   const sortEl = document.getElementById('sortRecipes');
+  const menuEl = document.getElementById('courseMenu');
+  const chipsEl = document.getElementById('activeFilters');
   const DIFFICULTY_ORDER = { easy: 1, medium: 2, hard: 3 };
   let allRecipes = [];
+
+  // The menu board tabs: value of the Course filter, Italian plural, English
+  const COURSE_MENU = [
+    ['',          'Tutto',     'Everything'],
+    ['antipasto', 'Antipasti', 'Starters'],
+    ['primo',     'Primi',     'First courses'],
+    ['secondo',   'Secondi',   'Main courses'],
+    ['contorno',  'Contorni',  'Sides'],
+    ['dolce',     'Dolci',     'Desserts']
+  ];
+  const REGION_IT = { north: 'Il Nord', centre: 'Il Centro', south: 'Il Sud', islands: 'Le Isole' };
+  const TIME_LABELS = { 30: '30 min or less', 60: '1 hour or less' };
+
+  /* ---------- One recipe, as a page from the ricettario ------------------
+     Arched photo with a course stamp and diet badges, an index number, and
+     menu-style dotted lines for time, difficulty and servings. */
+  function menuCardHtml(recipe, index) {
+    const level = DIFFICULTY_ORDER[recipe.difficulty];
+    const dots = [1, 2, 3].map(n => `<span class="menu-card__dot${n <= level ? ' is-on' : ''}"></span>`).join('');
+    const photo = recipe.image
+      ? `<img src="${escapeHtml(recipe.image)}" alt="${escapeHtml(recipe.image_alt)}" loading="lazy">`
+      : `<span class="photo-placeholder" role="img" aria-label="${escapeHtml(recipe.image_alt)}"></span>`;
+    return `
+      <article class="menu-card" style="--i: ${Math.min(index, 12)}">
+        <div class="menu-card__photo">
+          ${photo}
+          <span class="menu-card__stamp" aria-hidden="true">${COURSE_LABELS[recipe.course]}</span>
+          ${recipe.dietary.length ? `<span class="menu-card__diets">${recipe.dietary.map(d => `<span><i class="bi bi-check2-circle" aria-hidden="true"></i> ${DIETARY_LABELS[d]}</span>`).join('')}</span>` : ''}
+        </div>
+        <div class="menu-card__body">
+          <p class="menu-card__region">${regionIcon(recipe.region, 16)} ${REGION_IT[recipe.region]} <span class="visually-hidden">(${REGION_LABELS[recipe.region]}), ${COURSE_LABELS_EN[recipe.course]}</span>
+            <span class="menu-card__num" aria-hidden="true">N° ${String(recipe.id).padStart(2, '0')}</span></p>
+          <h3 class="menu-card__title"><a class="stretched-link" href="recipe.php?id=${recipe.id}">${escapeHtml(recipe.title)}</a></h3>
+          <p class="menu-card__en">${escapeHtml(recipe.title_en)}</p>
+          <dl class="menu-card__facts">
+            <div><dt>Tempo <span class="visually-hidden">(time)</span></dt><dd>${escapeHtml(formatMinutes(recipe.time_minutes))}${recipe.time_note ? ' <abbr title="' + escapeHtml(recipe.time_note) + '">+</abbr>' : ''}</dd></div>
+            <div><dt>Difficoltà <span class="visually-hidden">(difficulty)</span></dt><dd><span class="menu-card__dots" aria-hidden="true">${dots}</span> ${DIFFICULTY_LABELS[recipe.difficulty]}</dd></div>
+            <div><dt>Porzioni <span class="visually-hidden">(serves)</span></dt><dd>${recipe.base_servings}</dd></div>
+          </dl>
+          <span class="menu-card__cta" aria-hidden="true">Cuciniamo <i class="bi bi-arrow-right"></i></span>
+        </div>
+      </article>`;
+  }
+
+  /* ---------- Menu board tabs ------------------------------------------ */
+  function renderCourseMenu() {
+    const counts = {};
+    allRecipes.forEach(r => { counts[r.course] = (counts[r.course] || 0) + 1; });
+    menuEl.innerHTML = COURSE_MENU.map(([value, it, en]) => `
+      <li><button type="button" class="course-menu__tab" data-course="${value}" aria-pressed="false">
+        <span class="course-menu__it">${it}</span>
+        <span class="course-menu__en">${en} <span class="course-menu__count">${value ? counts[value] || 0 : allRecipes.length}</span></span>
+      </button></li>`).join('');
+  }
+  function syncCourseMenu(course) {
+    menuEl.querySelectorAll('.course-menu__tab').forEach(tab => tab.setAttribute('aria-pressed', String(tab.dataset.course === course)));
+  }
+
+  /* ---------- Active filter chips ---------------------------------------- */
+  // Each chip knows how to undo its own filter
+  function renderChips(f) {
+    const chips = [];
+    if (f.q) chips.push([`“${f.q}”`, () => { form.elements.q.value = ''; }]);
+    if (f.region) chips.push([REGION_LABELS[f.region], () => { form.elements.region.value = ''; }]);
+    if (f.course) chips.push([COURSE_LABELS[f.course], () => { form.elements.course.value = ''; }]);
+    ['diet', 'difficulty'].forEach(name => f[name].forEach(value => chips.push([
+      name === 'diet' ? DIETARY_LABELS[value] : DIFFICULTY_LABELS[value],
+      () => { form.querySelector(`input[name="${name}"][value="${value}"]`).checked = false; }
+    ])));
+    if (f.time) chips.push([TIME_LABELS[f.time], () => { form.elements.time.value = ''; }]);
+
+    chipsEl.hidden = chips.length === 0;
+    chipsEl.innerHTML = chips.map(([label], i) =>
+      `<li><button type="button" class="active-filters__chip" data-chip="${i}">${escapeHtml(label)} <i class="bi bi-x-lg" aria-hidden="true"></i><span class="visually-hidden"> (remove filter)</span></button></li>`).join('')
+      + (chips.length > 1 ? '<li><button type="button" class="active-filters__clear" data-chip="all">Clear all</button></li>' : '');
+    chipsEl.onclick = event => {
+      const button = event.target.closest('button');
+      if (!button) return;
+      if (button.dataset.chip === 'all') { clearFilters(); return; }
+      chips[Number(button.dataset.chip)][1]();
+      render();
+      (chipsEl.querySelector('button') || form.elements.q).focus();
+    };
+  }
 
   /* ---------- Read and write the filters ------------------------------ */
 
@@ -101,11 +187,15 @@
     const filters = readFilters();
     const results = sortRecipes(allRecipes.filter(r => matches(r, filters)), filters.sort);
 
-    grid.innerHTML = results.map(recipe => `<li>${recipeCardHtml(recipe)}</li>`).join(''); // recipeCardHtml: main.js
+    grid.innerHTML = results.map((recipe, i) => `<li>${menuCardHtml(recipe, i)}</li>`).join('');
     emptyEl.hidden = results.length > 0;
-    countEl.textContent = `${results.length} ${results.length === 1 ? 'recipe' : 'recipes'}` +
-      (results.length === allRecipes.length ? '' : ` of ${allRecipes.length}`);
+    countEl.innerHTML = `<span class="results-bar__num">${results.length}</span> ` +
+      `<span class="results-bar__it" aria-hidden="true">${results.length === 1 ? 'ricetta' : 'ricette'}</span> ` +
+      `<span class="results-bar__en">${results.length === 1 ? 'recipe' : 'recipes'}` +
+      (results.length === allRecipes.length ? '' : ` of ${allRecipes.length}`) + '</span>';
 
+    syncCourseMenu(filters.course);
+    renderChips(filters);
     updateUrl(filters);
   }
 
@@ -150,9 +240,18 @@
   });
   document.getElementById('emptyClear').addEventListener('click', clearFilters);
 
+  // A menu tab chooses that course in the Course filter
+  menuEl.addEventListener('click', event => {
+    const tab = event.target.closest('.course-menu__tab');
+    if (!tab) return;
+    form.elements.course.value = tab.dataset.course;
+    render();
+  });
+
   /* ---------- Start ------------------------------------------------------ */
   getRecipes().then(list => {
     allRecipes = list;
+    renderCourseMenu();
     fillFormFromUrl();
     render();
   });

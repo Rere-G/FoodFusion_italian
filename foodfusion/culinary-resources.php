@@ -60,10 +60,46 @@ include 'includes/header.php';
   </section>
 
   <!-- 3. VIDEOS ============================================================= -->
-  <section class="ff-section ff-section--marine" aria-labelledby="videoTitle">
+  <!-- A retro TV set plays the chosen technique video; the "TV guide" beside
+       it lists the episodes. Nothing loads from YouTube until Play is pressed
+       (then youtube-nocookie.com). Filled by resources.js (setupVideoTv). -->
+  <section class="ff-section ff-section--marine tv-section" aria-labelledby="videoTitle">
     <div class="container-xl">
-      <h2 class="ff-heading" id="videoTitle">Technique videos</h2>
-      <p class="ff-italian ff-italian--lg ff-italian--sable">Guarda e impara</p>
+      <div class="section-head section-head--split mb-4">
+        <div>
+          <p class="tv-section__kicker"><i class="bi bi-broadcast" aria-hidden="true"></i> FoodFusion TV</p>
+          <h2 class="ff-heading" id="videoTitle">Technique videos</h2>
+          <p class="ff-italian ff-italian--lg ff-italian--sable">Guarda e impara</p>
+        </div>
+        <p class="section-head__intro">Three short lessons from Italian cooks. Pick an episode, press play, then cook the recipe that uses the skill.</p>
+      </div>
+
+      <div class="tv-studio" id="videoTv" hidden>
+        <!-- The TV set -->
+        <div class="tv-set">
+          <div class="tv-set__antenna" aria-hidden="true"></div>
+          <div class="tv-set__body">
+            <div class="tv-set__screen" id="tvScreen" aria-live="polite"></div>
+            <div class="tv-set__panel" aria-hidden="true">
+              <span class="tv-set__onair" id="tvOnAir">In onda</span>
+              <span class="tv-set__knob"></span>
+              <span class="tv-set__knob tv-set__knob--small"></span>
+              <span class="tv-set__grille"></span>
+              <span class="tv-set__channel" id="tvChannel">01</span>
+            </div>
+          </div>
+          <div class="tv-set__feet" aria-hidden="true"></div>
+          <div class="tv-caption" id="tvCaption"></div>
+        </div>
+
+        <!-- The TV guide: one button per episode -->
+        <div class="tv-guide">
+          <h3 class="tv-guide__title">Il palinsesto <span>Today's episodes</span></h3>
+          <ol class="tv-guide__list" id="tvGuide"></ol>
+        </div>
+      </div>
+
+      <!-- Without JavaScript or video links, the plain cards show instead -->
       <ul class="video-grid mt-4" data-resource-kinds="video"></ul>
     </div>
   </section>

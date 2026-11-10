@@ -296,7 +296,9 @@ function postcardHtml(post, tilt = '0deg') {
         <p class="postcard__from">Saluti da ${escapeHtml(post.place)}</p>
         <span class="postcard__stamp" aria-hidden="true">${regionIcon(post.region, 26)}</span>
       </div>
-      <div class="photo-placeholder">Photo: ${escapeHtml(post.image_alt)}</div>
+      ${post.image
+        ? `<img class="postcard__photo" src="${escapeHtml(post.image)}" alt="${escapeHtml(post.image_alt)}" loading="lazy">`
+        : `<div class="photo-placeholder">Photo: ${escapeHtml(post.image_alt)}</div>`}
       <blockquote class="postcard__quote m-0">&ldquo;${escapeHtml(post.body)}&rdquo;</blockquote>
       <p class="postcard__by">
         <strong>${escapeHtml(post.user_name)}</strong>, ${escapeHtml(post.area)}.
@@ -313,7 +315,9 @@ function postcardHtml(post, tilt = '0deg') {
 function recipeCardHtml(recipe) {
   return `
     <article class="recipe-card">
-      <div class="photo-placeholder recipe-card__photo">Photo: ${escapeHtml(recipe.image_alt)}</div>
+      ${recipe.image
+        ? `<div class="recipe-card__photo"><img src="${escapeHtml(recipe.image)}" alt="${escapeHtml(recipe.image_alt)}" loading="lazy"></div>`
+        : `<div class="photo-placeholder recipe-card__photo">Photo: ${escapeHtml(recipe.image_alt)}</div>`}
       <div class="recipe-card__body">
         <p class="recipe-card__region">${regionIcon(recipe.region, 18)} ${REGION_LABELS[recipe.region]} &middot; ${COURSE_LABELS[recipe.course]}</p>
         <h3 class="recipe-card__title"><a class="stretched-link" href="recipe.php?id=${recipe.id}">${escapeHtml(recipe.title)}</a></h3>

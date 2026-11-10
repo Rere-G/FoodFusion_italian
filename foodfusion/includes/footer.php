@@ -62,15 +62,16 @@ $pageScripts = $pageScripts ?? [];
 <!-- Bootstrap JS (navbar collapse, modal) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Shared scripts, in order: data first, then helpers -->
-<script src="assets/js/data.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="assets/js/forms.js"></script>
-<script src="assets/js/share.js"></script>
+<!-- Shared scripts, in order: data first, then helpers.
+     ?v= is each file's last-modified time, so browsers fetch it again after every edit. -->
+<script src="assets/js/data.js?v=<?= filemtime(__DIR__ . '/../assets/js/data.js') ?>"></script>
+<script src="assets/js/main.js?v=<?= filemtime(__DIR__ . '/../assets/js/main.js') ?>"></script>
+<script src="assets/js/forms.js?v=<?= filemtime(__DIR__ . '/../assets/js/forms.js') ?>"></script>
+<script src="assets/js/share.js?v=<?= filemtime(__DIR__ . '/../assets/js/share.js') ?>"></script>
 
 <!-- Page-specific scripts -->
 <?php foreach ($pageScripts as $script): ?>
-<script src="<?= htmlspecialchars($script) ?>"></script>
+<script src="<?= htmlspecialchars($script) ?>?v=<?= filemtime(__DIR__ . '/../' . $script) ?>"></script>
 <?php endforeach; ?>
 </body>
 </html>

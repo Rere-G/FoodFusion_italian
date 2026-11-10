@@ -16,14 +16,23 @@ include 'includes/header.php';
   include 'includes/page-hero.php';
   ?>
 
-  <section class="ff-section ff-section--cream" aria-labelledby="resultsTitle">
+  <section class="ff-section ff-section--cream ricettario" aria-labelledby="resultsTitle">
     <div class="container-xl">
+
+      <!-- Trattoria menu board: one tab per course. Each tab sets the Course
+           filter below, so the two always agree. Filled by recipes.js. -->
+      <nav class="course-menu" aria-label="Browse by course">
+        <p class="course-menu__label"><span>Il menù</span> Browse by course</p>
+        <ul class="course-menu__list" id="courseMenu"></ul>
+      </nav>
+
       <div class="row g-4 g-lg-5">
 
         <!-- Filters. A real <form>, so it still works as a GET form without JavaScript. -->
         <div class="col-lg-4 col-xl-3">
           <form class="filters" id="recipeFilters" action="recipes.php" method="get" role="search" aria-label="Filter recipes">
             <h2 class="filters__title"><i class="bi bi-sliders" aria-hidden="true"></i> Find a recipe</h2>
+            <p class="filters__it">Cerca nel ricettario</p>
 
             <div class="ff-field">
               <label for="filterSearch">Search</label>
@@ -102,9 +111,22 @@ include 'includes/header.php';
               </select>
             </div>
           </div>
-          <ul class="recipe-grid" id="recipeGrid"></ul>
-          <div class="empty-state" id="noResults" hidden>
-            <p class="mb-3">No recipes match all of these filters.</p>
+
+          <!-- Each chosen filter as a chip; pressing one removes that filter -->
+          <ul class="active-filters" id="activeFilters" aria-label="Active filters" hidden></ul>
+
+          <ul class="recipe-grid recipe-grid--menu" id="recipeGrid"></ul>
+
+          <div class="empty-plate" id="noResults" hidden>
+            <svg class="empty-plate__art" viewBox="0 0 200 120" aria-hidden="true" focusable="false">
+              <ellipse cx="100" cy="106" rx="70" ry="8" fill="#1F3546" opacity=".12"/>
+              <ellipse cx="100" cy="62" rx="62" ry="40" fill="#FFFFFF" stroke="#1F3546" stroke-width="3"/>
+              <ellipse cx="100" cy="62" rx="42" ry="26" fill="none" stroke="#F0D08C" stroke-width="4"/>
+              <path d="M22 18 V100 M15 18 V40 Q15 50 22 52 Q29 50 29 40 V18" fill="none" stroke="#1F3546" stroke-width="3" stroke-linecap="round"/>
+              <path d="M178 18 Q192 36 184 54 L179 56 V100" fill="none" stroke="#1F3546" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p class="empty-plate__it">Il piatto è vuoto</p>
+            <p class="empty-plate__text">No recipes match all of these filters. Remove one of them, or start again.</p>
             <button type="button" class="ff-btn ff-btn--primary" id="emptyClear">Clear filters</button>
           </div>
         </div>
@@ -115,15 +137,30 @@ include 'includes/header.php';
 
   <div class="tile-band" aria-hidden="true"></div>
 
-  <section class="ff-section ff-section--piscine" aria-labelledby="shareCta">
-    <div class="container-xl d-flex flex-wrap align-items-center justify-content-between gap-4">
-      <div>
-        <h2 class="ff-subheading" id="shareCta">Missing your family's recipe?</h2>
-        <p class="ff-italian ff-italian--lg ff-italian--navy">Condividi la tua ricetta</p>
-      </div>
-      <div class="d-flex flex-wrap gap-3">
-        <a class="ff-btn ff-btn--primary ff-btn--lg" href="community.php#share">Share it in the Community Cookbook</a>
-        <a class="ff-btn ff-btn--outline ff-btn--lg" href="contact.php?reason=recipe_request">Request a recipe</a>
+  <section class="ff-section ff-section--piscine family-cta" aria-labelledby="shareCta">
+    <div class="container-xl">
+      <div class="row g-5 align-items-center">
+        <!-- A blank card from nonna's recipe box, waiting to be filled in -->
+        <div class="col-md-6 col-lg-5">
+          <div class="family-card" aria-hidden="true">
+            <p class="family-card__head">Ricetta di famiglia <span>N° 20</span></p>
+            <p class="family-card__line"><span>Piatto</span> your family's dish&hellip;</p>
+            <p class="family-card__line"><span>Da</span> nonna, zio, mamma&hellip;</p>
+            <p class="family-card__line"><span>Ingredienti</span></p>
+            <p class="family-card__line"></p>
+            <p class="family-card__line"></p>
+            <span class="family-card__stamp">Da condividere</span>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-7">
+          <h2 class="ff-subheading" id="shareCta">Missing your family's recipe?</h2>
+          <p class="ff-italian ff-italian--lg ff-italian--navy">Condividi la tua ricetta</p>
+          <p class="family-cta__text">Every recipe here started in someone's kitchen. Add yours to the Community Cookbook so it isn't lost, or ask us to test a dish you've been missing.</p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a class="ff-btn ff-btn--primary ff-btn--lg" href="community.php#share">Share it in the Community Cookbook</a>
+            <a class="ff-btn ff-btn--outline ff-btn--lg" href="contact.php?reason=recipe_request">Request a recipe</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
