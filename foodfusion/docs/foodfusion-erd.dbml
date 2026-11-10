@@ -1,6 +1,7 @@
-// FoodFusion database ERD (20 tables, 25 relationships)
+// FoodFusion database ERD (19 tables, 22 relationships)
 // Paste into https://dbdiagram.io to get an editable diagram.
 // Types with a space in them (e.g. "INT UNSIGNED") are written in quotes.
+// Column names match the fields in assets/js/data.js, which the phase 2 API will return.
 
 Project FoodFusion {
   database_type: 'MySQL'
@@ -58,7 +59,7 @@ Table users [headercolor: #1F3546] {
   last_name "VARCHAR(50)" [not null]
   email "VARCHAR(255)" [not null, unique]
   password_hash "VARCHAR(255)" [not null, note: 'password_hash() output, never the plain password']
-  location "VARCHAR(60)" [null]
+  location "VARCHAR(60)" [null, note: 'Shown on community posts, e.g. "Naples"']
   failed_attempts "TINYINT UNSIGNED" [not null, default: 0]
   lockout_until DATETIME [null, note: 'NOW() + 3 minutes after the 3rd failed attempt']
   created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
@@ -100,13 +101,18 @@ Table recipes [headercolor: #B23E10] {
   course recipe_course [not null]
   difficulty recipe_difficulty [not null]
   time_minutes "SMALLINT UNSIGNED" [not null]
-  time_note "VARCHAR(60)" [null]
+  time_note "VARCHAR(60)" [null, note: 'Waiting time that is not active cooking, e.g. "plus 24 hr dough"']
   base_servings "TINYINT UNSIGNED" [not null]
-  kcal_per_serving "SMALLINT UNSIGNED" [null]
-  image_path "VARCHAR(255)" [null]
+  image_path "VARCHAR(255)" [null, note: 'Photo on recipe cards and the recipe page']
   image_alt "VARCHAR(255)" [not null]
-  is_featured BOOLEAN [not null, default: false]
-  created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
+  cutout_path "VARCHAR(255)" [null, note: 'Round transparent cut-out that spins in the homepage Featured recipes section']
+  featured_order "TINYINT UNSIGNED" [null, unique, note: 'Homepage Featured recipes: 1 = Recipe of the week, 2, 3 ...; NULL = not featured']
+  region_pick_order "TINYINT UNSIGNED" [null, note: 'Order among the 3 dishes shown for its region on the homepage map; NULL = not shown']
+  created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`, note: 'Newest first in "Latest recipes"']
+
+  indexes {
+    (region_id, region_pick_order) [unique, note: 'One recipe per map slot in each region']
+  }
 }
 
 Table recipe_ingredients [headercolor: #B23E10] {
@@ -115,23 +121,23 @@ Table recipe_ingredients [headercolor: #B23E10] {
   sort_order "TINYINT UNSIGNED" [not null]
   name "VARCHAR(120)" [not null]
   metric_qty "DECIMAL(8,2)" [null, note: 'Per serving. NULL = to taste']
-  metric_unit "VARCHAR(10)" [not null]
+  metric_unit "VARCHAR(10)" [not null, note: 'Empty string for counted items, e.g. 2 eggs']
   us_qty "DECIMAL(8,2)" [null]
   us_unit "VARCHAR(10)" [not null]
-  note "VARCHAR(60)" [null]
+  note "VARCHAR(60)" [null, note: 'Shown instead of an amount, e.g. "to taste"']
 }
 
 Table recipe_steps [headercolor: #B23E10] {
   step_id "INT UNSIGNED" [pk, increment]
   recipe_id "INT UNSIGNED" [not null]
   step_number "TINYINT UNSIGNED" [not null]
-  instruction TEXT [not null]
+  instruction TEXT [not null, note: '{0}, {1} ... are replaced by ingredient amounts for the chosen servings']
   time_minutes "SMALLINT UNSIGNED" [null]
 }
 
 Table dietary_tags [headercolor: #B23E10] {
   dietary_id "TINYINT UNSIGNED" [pk, increment]
-  slug "VARCHAR(20)" [not null, unique]
+  slug "VARCHAR(20)" [not null, unique, note: 'vegetarian, vegan, gluten_free']
   label "VARCHAR(40)" [not null]
 }
 
@@ -144,16 +150,6 @@ Table recipe_dietary [note: 'Junction table: many-to-many between recipes and di
   }
 }
 
-Table saved_recipes [note: 'Junction table: many-to-many between users and recipes'] {
-  user_id "INT UNSIGNED" [not null]
-  recipe_id "INT UNSIGNED" [not null]
-  saved_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
-
-  indexes {
-    (user_id, recipe_id) [pk]
-  }
-}
-
 // ---------- Community ----------
 Table community_posts [headercolor: #3A5A72] {
   post_id "INT UNSIGNED" [pk, increment]
@@ -162,10 +158,12 @@ Table community_posts [headercolor: #3A5A72] {
   type post_type [not null]
   title "VARCHAR(100)" [not null]
   body TEXT [not null]
-  ingredients_text TEXT [null]
-  steps_text TEXT [null]
-  place "VARCHAR(60)" [null]
+  ingredients_text TEXT [null, note: 'Recipe posts: one ingredient per line']
+  steps_text TEXT [null, note: 'Recipe posts: one step per line']
+  place "VARCHAR(60)" [null, note: 'Story postcards: the town in "Saluti da ...", e.g. Bari']
+  area "VARCHAR(60)" [null, note: 'Story postcards: the Italian region of that town, e.g. Puglia']
   image_path "VARCHAR(255)" [null]
+  image_alt "VARCHAR(255)" [null, note: 'Required when image_path is set']
   is_featured BOOLEAN [not null, default: false]
   created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
 }
@@ -178,7 +176,7 @@ Table comments [headercolor: #3A5A72] {
   created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
 }
 
-Table post_likes [note: 'Junction table: many-to-many between users and community_posts. The composite PK stops double likes.'] {
+Table post_likes [note: 'Junction table: many-to-many between users and community_posts. The composite PK stops double likes. Like counts are COUNT(*) here, never a stored number.'] {
   user_id "INT UNSIGNED" [not null]
   post_id "INT UNSIGNED" [not null]
   liked_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
@@ -192,12 +190,12 @@ Table challenges [headercolor: #3A5A72] {
   challenge_id "INT UNSIGNED" [pk, increment]
   title "VARCHAR(100)" [not null]
   description TEXT
-  rules TEXT
-  starts_on DATE [not null]
+  rules TEXT [note: 'One rule per line']
+  starts_on DATE [not null, note: 'Its month gives the "November" label']
   closes_on DATE [not null]
 }
 
-Table challenge_entries [headercolor: #3A5A72] {
+Table challenge_entries [headercolor: #3A5A72, note: 'An entry is a community post: its title, photo and author come from the post, and liking an entry adds a row to post_likes for that post.'] {
   entry_id "INT UNSIGNED" [pk, increment]
   challenge_id "INT UNSIGNED" [not null]
   post_id "INT UNSIGNED" [not null, unique, note: 'A post can enter a challenge only once']
@@ -208,13 +206,13 @@ Table challenge_entries [headercolor: #3A5A72] {
 Table contact_messages [headercolor: #F0D08C] {
   message_id "INT UNSIGNED" [pk, increment]
   user_id "INT UNSIGNED" [null, note: 'NULL for visitors who are not logged in']
-  dish_region_id "TINYINT UNSIGNED" [null]
+  dish_region_id "TINYINT UNSIGNED" [null, note: 'Recipe requests only']
   name "VARCHAR(80)" [not null]
   email "VARCHAR(255)" [not null]
   reason contact_reason [not null]
   subject "VARCHAR(120)" [not null]
   message TEXT [not null]
-  dish_name "VARCHAR(100)" [null]
+  dish_name "VARCHAR(100)" [null, note: 'Recipe requests only']
   rating "TINYINT UNSIGNED" [null, note: '1 to 5, feedback only']
   status message_status [not null, default: 'new']
   created_at TIMESTAMP [not null, default: `CURRENT_TIMESTAMP`]
@@ -232,7 +230,7 @@ Table team_members [headercolor: #F0D08C] {
 
 Table resources [headercolor: #F0D08C] {
   resource_id "INT UNSIGNED" [pk, increment]
-  recipe_id "INT UNSIGNED" [null]
+  recipe_id "INT UNSIGNED" [null, note: 'Recipe cards only']
   category resource_category [not null]
   kind resource_kind [not null]
   title "VARCHAR(120)" [not null]
@@ -253,27 +251,30 @@ Table events [headercolor: #F0D08C] {
   event_date DATE [not null]
   start_time TIME [not null]
   location "VARCHAR(100)" [not null]
+  image_path "VARCHAR(255)" [null, note: 'Photo on the Cook with us carousel']
 }
 
-Table news_articles [headercolor: #F0D08C] {
+Table news_articles [headercolor: #F0D08C, note: 'Culinary trends carousel on the homepage'] {
   news_id "INT UNSIGNED" [pk, increment]
   author_member_id "INT UNSIGNED" [null, note: 'Team member who wrote the article']
-  recipe_id "INT UNSIGNED" [null, note: 'Featured recipe in the news feed']
   title "VARCHAR(120)" [not null]
+  tag "VARCHAR(30)" [not null, note: 'Card label, e.g. Seasonal, Technique']
+  icon "VARCHAR(40)" [null, note: 'Bootstrap Icons class for the tag, e.g. bi-calendar3']
   summary "VARCHAR(300)" [not null]
   body TEXT
   image_path "VARCHAR(255)" [null]
+  image_alt "VARCHAR(255)" [null, note: 'Required when image_path is set']
   published_on DATE [not null]
 }
 
-// ---------- Relationships (25) ----------
+// ---------- Relationships (22) ----------
 // ">" means many-to-one: the left side is the "many" side with the foreign key.
 // "-" means one-to-one.
 
 // Accounts
-Ref: password_resets.user_id > users.user_id
-Ref: login_attempts.user_id > users.user_id
-Ref: contact_messages.user_id > users.user_id
+Ref: password_resets.user_id > users.user_id [delete: cascade]
+Ref: login_attempts.user_id > users.user_id [delete: set null]
+Ref: contact_messages.user_id > users.user_id [delete: set null]
 
 // Recipes
 Ref: recipes.region_id > regions.region_id
@@ -281,8 +282,6 @@ Ref: recipe_ingredients.recipe_id > recipes.recipe_id [delete: cascade]
 Ref: recipe_steps.recipe_id > recipes.recipe_id [delete: cascade]
 Ref: recipe_dietary.recipe_id > recipes.recipe_id [delete: cascade]
 Ref: recipe_dietary.dietary_id > dietary_tags.dietary_id
-Ref: saved_recipes.user_id > users.user_id [delete: cascade]
-Ref: saved_recipes.recipe_id > recipes.recipe_id [delete: cascade]
 
 // Community
 Ref: community_posts.user_id > users.user_id
@@ -292,13 +291,12 @@ Ref: comments.user_id > users.user_id
 Ref: post_likes.user_id > users.user_id [delete: cascade]
 Ref: post_likes.post_id > community_posts.post_id [delete: cascade]
 Ref: challenge_entries.challenge_id > challenges.challenge_id
-Ref: challenge_entries.post_id - community_posts.post_id
+Ref: challenge_entries.post_id - community_posts.post_id [delete: cascade]
 
 // Contact & content
-Ref: contact_messages.dish_region_id > regions.region_id
-Ref: team_members.favourite_recipe_id > recipes.recipe_id
-Ref: resources.recipe_id > recipes.recipe_id
-Ref: events.host_member_id > team_members.member_id
-Ref: events.region_id > regions.region_id
-Ref: news_articles.author_member_id > team_members.member_id
-Ref: news_articles.recipe_id > recipes.recipe_id
+Ref: contact_messages.dish_region_id > regions.region_id [delete: set null]
+Ref: team_members.favourite_recipe_id > recipes.recipe_id [delete: set null]
+Ref: resources.recipe_id > recipes.recipe_id [delete: set null]
+Ref: events.host_member_id > team_members.member_id [delete: set null]
+Ref: events.region_id > regions.region_id [delete: set null]
+Ref: news_articles.author_member_id > team_members.member_id [delete: set null]
